@@ -13,7 +13,7 @@ export const wrapRootElement = ({ element }) => {
       clientId={process.env.GATSBY_AUTH0_CLIENT_ID}
       onRedirectCallback={onRedirectCallback}
       redirectUri={window.location.origin}
-      audience="https://capnolabel.gatsbyjs.io"
+      audience={process.env.GATSBY_AUTH0_AUDIENCE}
     >
         {element}
     </Auth0Provider>
