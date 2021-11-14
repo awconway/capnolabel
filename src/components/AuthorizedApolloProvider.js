@@ -34,7 +34,7 @@ const AuthorizedApolloProvider = ({ children }) => {
 			authMiddleware,
 			new RetryLink(),
 			new BatchHttpLink({
-				uri: `https://capnolabel.hasura.app/v1/graphql`,
+				uri: `${process.env.GATSBY_HASURA_ENDPOINT}`,
 				fetch: fetcher,
 			}),
 		]),
