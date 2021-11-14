@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
 import { useAuth0 } from "@auth0/auth0-react"
 import { ArticleWrapper, gapSize } from "./Base"
-import { op, fromJSON, filter, escape } from 'arquero'
+import { op, fromJSON, escape } from 'arquero'
 import segments from "../data/segments"
 import LinePlot from "./linePlot"
 import LabelTableComponent from "./LabelTable";
@@ -12,8 +12,6 @@ import Button from "../components/Button"
 import Toggle from "./ToggleData";
 import Spacer from "./Spacer"
 
-const MOBILE_BREAKPOINT = 550;
-
 const DesktopPlotWrapper = styled.figure`
     grid-column: 1 / -1; //full width
     width:100%;
@@ -21,9 +19,6 @@ const DesktopPlotWrapper = styled.figure`
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: ${gapSize.small};
-    @media (max-width: ${MOBILE_BREAKPOINT}px) {
-    display: none;
-  } 
 `
 
 const Section = styled.section`
@@ -160,6 +155,8 @@ export default function Test() {
     
     //Modal hook
     const [showModal, setShowModal] = useState(false)
+    //Alert hook
+    const [showAlert, setShowAlert] = useState(false)
     //ID of delete selection
     const [currentId, setCurrentId] = useState(null)
     const [deleteInfo, setDeleteInfo] = useState(null)
@@ -179,10 +176,14 @@ export default function Test() {
     const abortDelete = () => {
         setShowModal(false)
     }
+    const abortAlert = () => {
+        setShowAlert(false)
+        setLabel(null)
+    }
+
     
     const segmentsLabelled = data && data.labels.map(label => label.segmentIndex)
     const idsLabelledIndex = data && currentId && data.labels.map(label => label.id).indexOf(currentId)
-
     return (
         <>
             <Section>
@@ -192,7 +193,7 @@ export default function Test() {
                 <ArticleWrapper>
                     <WaveformSelectorWrapper>
                         <WaveformSelectorCol>
-                            <label for="segment">Waveform</label>
+                            <label htmlFor="segment">Waveform</label>
                             <Spacer axis="horizontal" size={10} />
                             <input type="number" id="segmentIndex" name="segmentIndex"
                                 min="1" max="121"
@@ -201,46 +202,49 @@ export default function Test() {
                             />
                         </WaveformSelectorCol>
                         <WaveformSelectorLabel>
-                            {["regular", "irregular", "no breath", "missing"].map((d, i) => (
+                            {["breathing", "artifact", "no breath", "missing"].map((d, i) => (
                                 <Toggle
                                     id="toggle"
                                     type="radio"
                                     name="label"
                                     value={d}
-                                    onChange={(e) => setLabel(e.currentTarget.value)}
+                                    onChange={(e) => {
+                                        setLabel(e.currentTarget.value)
+                                        if (segmentsLabelled.includes(segmentIndex + 1)) {
+                                            setShowAlert(true)
+                                        }
+                                        else {
+                                            updateLabels({
+                                                variables: {
+                                                    label: e.target.value, 
+                                                    pid: pidSelected, 
+                                                    segment: segmentSelected, 
+                                                    segmentIndex: segmentIndex + 1, 
+                                                    user_id: user.sub
+                                                }
+                                            });
+                                            setLabel(null)
+                                            setSegmentIndex(segmentIndex + 1)
+                                        }
+                                    }}
                                     checked={label === d}
                                     text={d}
                                 />
                             ))}
                         </WaveformSelectorLabel>
                     </WaveformSelectorWrapper>
-                    <Button
-                        variant="fill"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            if (label === null) {
-                                alert("Please select a label for ")
-                            } else if (segmentsLabelled.includes(segmentIndex + 1)) {
-                                alert(`You have already labelled this waveform. Delete the waveform from the table below if you want to assign a different label to waveform number ${segmentIndex + 1}.`)
-                            }
-                            else {
-                                updateLabels({
-                                    variables: {
-                                        label: label, pid: pidSelected, segment: segmentSelected, segmentIndex: segmentIndex + 1, user_id: user.sub
-                                    }
-                                });
-                                setLabel(null)
-                                setSegmentIndex(segmentIndex + 1)
-                            }
-                        }}>
-                        Save label
-                    </Button>
                 </ArticleWrapper>
             </Section>
             <Section>
                 <ArticleWrapper>
                     {isAuthenticated && data && (
                         <LabelTableComponent data={data} handleDelete={handleDelete} />
+                    )}
+                    {isAuthenticated && error && (
+                        <p>Error: {error.message}</p>
+                    )}
+                    {isAuthenticated && loading && (
+                        <p>Loading...</p>
                     )}
                 </ArticleWrapper>
             </Section>
@@ -250,7 +254,9 @@ export default function Test() {
                 handleDismiss={() => setShowModal(false)}
             >
                 <ModalMessage>
-                    Please confirm if you want to delete the label "{deleteInfo}" for waveform number {currentId && segmentsLabelled[idsLabelledIndex]}.
+                    Please confirm if you want to delete 
+                    the label "{deleteInfo}" for waveform 
+                    number {currentId && segmentsLabelled[idsLabelledIndex]}.
                 </ModalMessage>
                 <ModalButtonWrapper>
                     <Button
@@ -268,6 +274,26 @@ export default function Test() {
                         Delete
                     </Button>
                 </ModalButtonWrapper>
+            </Modal>
+            <Modal
+                title="Alert"
+                isOpen={showAlert}
+                handleDismiss={abortAlert}
+            >
+                <ModalMessage>
+                You have already labelled waveform number {segmentIndex + 1}. 
+                You will need to delete the saved label first if 
+                you want to make a correction.
+                </ModalMessage>
+                <ModalButtonWrapper>
+                    <Button
+                        variant="outline"
+                        size="medium"
+                        onClick={abortAlert}
+                    >
+                        Dismiss
+                    </Button>
+                    </ModalButtonWrapper>
             </Modal>
         </>
     )
