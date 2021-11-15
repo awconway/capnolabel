@@ -1,20 +1,43 @@
 import React from 'react';
+import styled from "styled-components"
+import Spacer from './Spacer'
 import {
-    Listbox,
-    ListboxInput,
-    ListboxButton,
-    ListboxPopover,
-    ListboxList,
-    ListboxOption,
-  } from "@reach/listbox";
-import "@reach/listbox/styles.css";
+  ListboxInput,
+  ListboxButton,
+  ListboxPopover,
+  ListboxList,
+  ListboxOption,
+} from "@reach/listbox";
 
-function Select({pids, onChange}) {
-    return (
-        <Listbox defaultValue={pids[0]} onChange={onChange} >
-         {pids.map(pid => {
-                return <ListboxOption value={pid}>{pid}</ListboxOption>
+const Button = styled(ListboxButton)`
+background-color: var(--layoutBg);
+color: var(--white);
+border: 2px solid var(--white);
+padding: 5px;
+display: inline-grid;
+cursor: pointer;
+width: fit-content;
+`
+
+const Popover = styled(ListboxPopover)`
+background-color: var(--layoutBg);
+color: var(--white);
+`
+
+export default function Select({ breathingLabels, onChange, defaultValue }) {
+  return (
+    <>
+      <ListboxInput onChange={onChange} required={false} defaultValue={defaultValue} >
+        <Button>breathing</Button>
+        <Popover>
+          <ListboxList>
+            {breathingLabels.map(label => {
+              return <ListboxOption value={label}>{label}</ListboxOption>
             })}
-        </Listbox>
-      );
+          </ListboxList>
+        </Popover>
+      </ListboxInput>
+      <Spacer axis="horizontal" size={10} />
+    </>
+  );
 }

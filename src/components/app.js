@@ -11,7 +11,16 @@ import { gql, useQuery, useMutation } from "@apollo/client";
 import Button from "../components/Button"
 import Toggle from "./ToggleData";
 import Spacer from "./Spacer"
-
+import Select from "./select"
+import {
+    Listbox,
+    ListboxInput,
+    ListboxButton,
+    ListboxPopover,
+    ListboxList,
+    ListboxOption,
+} from "@reach/listbox";
+import "@reach/listbox/styles.css";
 const DesktopPlotWrapper = styled.figure`
     grid-column: 1 / -1; //full width
     width:100%;
@@ -103,31 +112,31 @@ justify-content: center;
 align-items: center;
 `
 
-export default function Test() {
+export default function App() {
     const { user, isAuthenticated } = useAuth0()
 
     const [segmentIndex, setSegmentIndex] = useState(0)
     const dt = fromJSON(segments)
-    
-    const plotData = dt
-    .filter(escape((d) => d.segmentIndex === segmentIndex + 1))
-    
-    const pidSelected = plotData
-    .filter(escape((d) => d.segmentIndex === segmentIndex + 1))
-    .rollup({
-        pid: op.array_agg_distinct("pid")
-    })
-    .get("pid")[0]
-    
-    
-    const segmentSelected = plotData
-    .filter(escape((d) => d.segmentIndex === segmentIndex + 1))
-    .rollup({
-        segment: op.array_agg_distinct("capnoFeatureGroup")
-    })
-    .get("segment")[0]
 
-    
+    const plotData = dt
+        .filter(escape((d) => d.segmentIndex === segmentIndex + 1))
+
+    const pidSelected = plotData
+        .filter(escape((d) => d.segmentIndex === segmentIndex + 1))
+        .rollup({
+            pid: op.array_agg_distinct("pid")
+        })
+        .get("pid")[0]
+
+
+    const segmentSelected = plotData
+        .filter(escape((d) => d.segmentIndex === segmentIndex + 1))
+        .rollup({
+            segment: op.array_agg_distinct("capnoFeatureGroup")
+        })
+        .get("segment")[0]
+
+
     const updateCache = (cache, { data }) => {
         const existingLabels = cache.readQuery({ query: QUERY })
         const newLabel = data.insert_labels.returning[0]
@@ -136,7 +145,7 @@ export default function Test() {
             data: { labels: [newLabel, ...existingLabels.labels] }
         })
     }
-    
+
     const updateCacheDeletion = (cache, { data }) => {
         const existingLabels = cache.readQuery({ query: QUERY })
         const newLabels = existingLabels.labels.filter(label => (label.id !== currentId));
@@ -146,13 +155,13 @@ export default function Test() {
         })
     }
     const [label, setLabel] = useState(null);
-    
+
     const [updateLabels] = useMutation(MUTATION, { update: updateCache })
-    
+
     const { loading, error, data } = useQuery(QUERY);
-    
+
     const [removeLabelMutation] = useMutation(DELETE_ROW, { update: updateCacheDeletion })
-    
+
     //Modal hook
     const [showModal, setShowModal] = useState(false)
     //Alert hook
@@ -166,7 +175,7 @@ export default function Test() {
         setCurrentId(e.target.getAttribute("name"))
         setDeleteInfo(e.currentTarget.value)
     }
-    
+
     const confirmDelete = () => {
         removeLabelMutation({
             variables: { id: currentId }
@@ -181,7 +190,31 @@ export default function Test() {
         setLabel(null)
     }
 
-    
+    const [value, setValue] = useState(null)
+
+    const handleBreathingLabel = (value) => {
+        setLabel(value)
+        if (segmentsLabelled.includes(segmentIndex + 1)) {
+            setShowAlert(true)
+        }
+        else {
+            updateLabels({
+                variables: {
+                    label: value,
+                    pid: pidSelected,
+                    segment: segmentSelected,
+                    segmentIndex: segmentIndex + 1,
+                    user_id: user.sub
+                }
+            });
+            setLabel(null)
+            setSegmentIndex(segmentIndex + 1)
+            setValue(null)
+        }
+
+
+    }
+
     const segmentsLabelled = data && data.labels.map(label => label.segmentIndex)
     const idsLabelledIndex = data && currentId && data.labels.map(label => label.id).indexOf(currentId)
     return (
@@ -202,7 +235,11 @@ export default function Test() {
                             />
                         </WaveformSelectorCol>
                         <WaveformSelectorLabel>
-                            {["breathing", "artifact", "no breath", "missing"].map((d, i) => (
+                            <Select breathingLabels={["regular", "irregular"]}
+                                onChange={handleBreathingLabel}
+                                defaultValue={value}
+                            />
+                            {["no breath", "artifact", "missing"].map((d, i) => (
                                 <Toggle
                                     id="toggle"
                                     type="radio"
@@ -216,10 +253,10 @@ export default function Test() {
                                         else {
                                             updateLabels({
                                                 variables: {
-                                                    label: e.target.value, 
-                                                    pid: pidSelected, 
-                                                    segment: segmentSelected, 
-                                                    segmentIndex: segmentIndex + 1, 
+                                                    label: e.target.value,
+                                                    pid: pidSelected,
+                                                    segment: segmentSelected,
+                                                    segmentIndex: segmentIndex + 1,
                                                     user_id: user.sub
                                                 }
                                             });
@@ -254,8 +291,8 @@ export default function Test() {
                 handleDismiss={() => setShowModal(false)}
             >
                 <ModalMessage>
-                    Please confirm if you want to delete 
-                    the label "{deleteInfo}" for waveform 
+                    Please confirm if you want to delete
+                    the label "{deleteInfo}" for waveform
                     number {currentId && segmentsLabelled[idsLabelledIndex]}.
                 </ModalMessage>
                 <ModalButtonWrapper>
@@ -281,9 +318,9 @@ export default function Test() {
                 handleDismiss={abortAlert}
             >
                 <ModalMessage>
-                You have already labelled waveform number {segmentIndex + 1}. 
-                You will need to delete the saved label first if 
-                you want to make a correction.
+                    You have already labelled waveform number {segmentIndex + 1}.
+                    You will need to delete the saved label first if
+                    you want to make a correction.
                 </ModalMessage>
                 <ModalButtonWrapper>
                     <Button
@@ -293,7 +330,7 @@ export default function Test() {
                     >
                         Dismiss
                     </Button>
-                    </ModalButtonWrapper>
+                </ModalButtonWrapper>
             </Modal>
         </>
     )
