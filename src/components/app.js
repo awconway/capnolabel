@@ -11,16 +11,7 @@ import { gql, useQuery, useMutation } from "@apollo/client";
 import Button from "../components/Button"
 import Toggle from "./ToggleData";
 import Spacer from "./Spacer"
-import Select from "./select"
-import {
-    Listbox,
-    ListboxInput,
-    ListboxButton,
-    ListboxPopover,
-    ListboxList,
-    ListboxOption,
-} from "@reach/listbox";
-import "@reach/listbox/styles.css";
+
 const DesktopPlotWrapper = styled.figure`
     grid-column: 1 / -1; //full width
     width:100%;
@@ -190,31 +181,6 @@ export default function App() {
         setLabel(null)
     }
 
-    const [value, setValue] = useState(null)
-
-    const handleBreathingLabel = (value) => {
-        setLabel(value)
-        if (segmentsLabelled.includes(segmentIndex + 1)) {
-            setShowAlert(true)
-        }
-        else {
-            updateLabels({
-                variables: {
-                    label: value,
-                    pid: pidSelected,
-                    segment: segmentSelected,
-                    segmentIndex: segmentIndex + 1,
-                    user_id: user.sub
-                }
-            });
-            setLabel(null)
-            setSegmentIndex(segmentIndex + 1)
-            setValue(null)
-        }
-
-
-    }
-
     const segmentsLabelled = data && data.labels.map(label => label.segmentIndex)
     const idsLabelledIndex = data && currentId && data.labels.map(label => label.id).indexOf(currentId)
     return (
@@ -235,11 +201,7 @@ export default function App() {
                             />
                         </WaveformSelectorCol>
                         <WaveformSelectorLabel>
-                            <Select breathingLabels={["regular", "irregular"]}
-                                onChange={handleBreathingLabel}
-                                defaultValue={value}
-                            />
-                            {["no breath", "artifact", "missing"].map((d, i) => (
+                            {["regular", "irregular", "artifact", "no breath", "missing"].map((d, i) => (
                                 <Toggle
                                     id="toggle"
                                     type="radio"

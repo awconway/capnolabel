@@ -10,27 +10,29 @@ import {
 } from "@reach/listbox";
 
 const Button = styled(ListboxButton)`
-background-color: var(--layoutBg);
-color: var(--white);
-border: 2px solid var(--white);
-padding: 5px;
-display: inline-grid;
-cursor: pointer;
-width: fit-content;
+    background-color: var(--layoutBg);
+    color: var(--white);
+    border: 2px solid var(--white);
+    padding: 5px;
+    display: inline-grid;
+    cursor: pointer;
+    width: fit-content;
 `
 
 const Popover = styled(ListboxPopover)`
-background-color: var(--layoutBg);
-color: var(--white);
+    background-color: var(--layoutBg);
+    color: var(--white);
+    cursor: pointer;
+
 `
 
 export default function Select({ breathingLabels, onChange, defaultValue }) {
   return (
     <>
-      <ListboxInput onChange={onChange} required={false} defaultValue={defaultValue} >
+      <ListboxInput onChange={onChange} defaultValue={defaultValue} >
         <Button>breathing</Button>
         <Popover>
-          <ListboxList>
+          <ListboxList >
             {breathingLabels.map(label => {
               return <ListboxOption value={label}>{label}</ListboxOption>
             })}
