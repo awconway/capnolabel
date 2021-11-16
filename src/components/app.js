@@ -10,20 +10,10 @@ import { gql, useQuery, useMutation } from "@apollo/client";
 import Button from "../components/Button"
 import Toggle from "./ToggleData";
 import Spacer from "./Spacer"
-import ContentLoader from "react-content-loader";
-const LoadingSkeleton = styled(ContentLoader)`
-    grid-column: 2;
-    width: 100%;
-`
+import Loading from "./Loading";
+import { useWindowSize } from "@reach/window-size";
 
-const DesktopPlotWrapper = styled.figure`
-    grid-column: 1 / -1; //full width
-    width:100%;
-    padding: 0 10px;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: ${gapSize.small};
-`
+
 
 const Section = styled.section`
     display: grid;
@@ -198,22 +188,16 @@ export default function App() {
 
     const segmentsLabelled = data && data.labels.map(label => label.segmentIndex)
     const idsLabelledIndex = data && currentId && data.labels.map(label => label.id).indexOf(currentId)
+    const { width } = useWindowSize();
+
     return (
         <>
-            <DesktopPlotWrapper>
-                {waveformLoading &&
-                    <LoadingSkeleton
-                        width={1200}
-                        height={400}
-                        viewBox="0 0 1200 400"
-                    >
-                        <rect x="0" y="0" rx="0" ry="0" width="1200" height="400" />
-                    </LoadingSkeleton>
-                }
-                {plotData && (
-                    <LinePlot data={plotData} />
-                )}
-            </DesktopPlotWrapper>
+            {waveformLoading &&
+                <Loading width={width} height={400} />
+            }
+            {plotData && (
+                <LinePlot data={plotData} />
+            )}
             <Section>
                 <ArticleWrapper>
                     <WaveformSelectorWrapper>

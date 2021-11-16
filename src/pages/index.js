@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { gapSize } from "../components/Base"
 import SignInIcon from "../images/svg/sign-in-alt.svg"
 import { isIE } from "react-device-detect";
+import { useWindowSize } from "@reach/window-size";
 
 
 const MainIndex = styled.main`
@@ -69,24 +70,16 @@ const InternetExplorerWarning = styled.div`
   font-size: 1.5rem;
   font-weight: 600;
 `
-const DesktopPlotWrapper = styled.figure`
-    grid-column: 1 / -1; //full width
-    width:100%;
-    padding: 0 10px;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: ${gapSize.small};
-`
+
 export default function Home() {
   const { isLoading, error, user, loginWithRedirect } = useAuth0()
+  const { width } = useWindowSize();
 
   if (isLoading) {
     return (
       <Layout>
         <MainIndex>
-          <DesktopPlotWrapper>
-          <Loading />
-          </DesktopPlotWrapper>
+          <Loading width={width} height={400}/>
         </MainIndex>
       </Layout>
     )
