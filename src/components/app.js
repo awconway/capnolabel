@@ -1,9 +1,8 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 import { useAuth0 } from "@auth0/auth0-react"
 import { ArticleWrapper, gapSize } from "./Base"
-import { op, fromJSON, escape } from 'arquero'
-import segments from "../data/segments"
+import { op, from } from 'arquero'
 import LinePlot from "./linePlot"
 import LabelTableComponent from "./LabelTable";
 import Modal from "./Modal";
@@ -11,6 +10,11 @@ import { gql, useQuery, useMutation } from "@apollo/client";
 import Button from "../components/Button"
 import Toggle from "./ToggleData";
 import Spacer from "./Spacer"
+import ContentLoader from "react-content-loader";
+const LoadingSkeleton = styled(ContentLoader)`
+    grid-column: 2;
+    width: 100%;
+`
 
 const DesktopPlotWrapper = styled.figure`
     grid-column: 1 / -1; //full width
@@ -107,26 +111,37 @@ export default function App() {
     const { user, isAuthenticated } = useAuth0()
 
     const [segmentIndex, setSegmentIndex] = useState(0)
-    const dt = fromJSON(segments)
 
-    const plotData = dt
-        .filter(escape((d) => d.segmentIndex === segmentIndex + 1))
+    const WAVEFORM_QUERY = gql`
+    query Waveform {
+        capnolabel_segments(where: {segmentIndex: {_eq: ${segmentIndex + 1}}}, order_by: {timeIndex: asc}) {
+            co2Wave
+            timeIndex
+            segmentIndex
+            pid
+            capnoFeatureGroup
+        }
+    }
+    `
 
-    const pidSelected = plotData
-        .filter(escape((d) => d.segmentIndex === segmentIndex + 1))
+
+    const { loading: waveformLoading, error: waveformError, data: waveformData } = useQuery(WAVEFORM_QUERY)
+
+
+    const plotData = waveformData && from(waveformData.capnolabel_segments)
+
+    const pidSelected = waveformData && plotData
         .rollup({
             pid: op.array_agg_distinct("pid")
         })
         .get("pid")[0]
 
 
-    const segmentSelected = plotData
-        .filter(escape((d) => d.segmentIndex === segmentIndex + 1))
+    const segmentSelected = waveformData && plotData
         .rollup({
             segment: op.array_agg_distinct("capnoFeatureGroup")
         })
         .get("segment")[0]
-
 
     const updateCache = (cache, { data }) => {
         const existingLabels = cache.readQuery({ query: QUERY })
@@ -185,10 +200,21 @@ export default function App() {
     const idsLabelledIndex = data && currentId && data.labels.map(label => label.id).indexOf(currentId)
     return (
         <>
-            <Section>
-                <DesktopPlotWrapper>
+            <DesktopPlotWrapper>
+                {waveformLoading &&
+                    <LoadingSkeleton
+                        width={1200}
+                        height={400}
+                        viewBox="0 0 1200 400"
+                    >
+                        <rect x="0" y="0" rx="0" ry="0" width="1200" height="400" />
+                    </LoadingSkeleton>
+                }
+                {plotData && (
                     <LinePlot data={plotData} />
-                </DesktopPlotWrapper>
+                )}
+            </DesktopPlotWrapper>
+            <Section>
                 <ArticleWrapper>
                     <WaveformSelectorWrapper>
                         <WaveformSelectorCol>
@@ -243,7 +269,7 @@ export default function App() {
                         <p>Error: {error.message}</p>
                     )}
                     {isAuthenticated && loading && (
-                        <p>Loading...</p>
+                        <p>Loading saved data...</p>
                     )}
                 </ArticleWrapper>
             </Section>
