@@ -5523,11 +5523,6 @@ gatsby-plugin-react-svg@^3.1.0:
   dependencies:
     svg-react-loader "^0.4.6"
 
-gatsby-plugin-remove-serviceworker@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-remove-serviceworker/-/gatsby-plugin-remove-serviceworker-1.0.0.tgz#9fb433bc8bd766e14e1d3711c4ac6f051e1dff7c"
-  integrity sha1-n7QzvIvXZuFOHTcRxKxvBR4d/3w=
-
 gatsby-plugin-styled-components@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-styled-components/-/gatsby-plugin-styled-components-5.1.0.tgz#217f404c51a13b52154f8595a8d7864cce32746e"
