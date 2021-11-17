@@ -4,7 +4,7 @@ require("dotenv").config({
 
 module.exports = {
   siteMetadata: {
-    siteUrl: "https://www.yourdomain.tld",
+    siteUrl: "https://capnolabel.gatsbyjs.io",
     title: "capnolabel",
   },
   plugins: [
@@ -22,6 +22,20 @@ module.exports = {
       }
     },
     {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `Capnography waveform labelling app`,
+        short_name: `capnoaudit`,
+        description: `Labelling app for capnography waveforms`,
+        lang: `en`,
+        display: `standalone`,
+        icon: `src/images/icon.png`,
+        start_url: `/`,
+        background_color: `#403f53`,
+        theme_color: `#403f53`,
+      },
+    },
+    {
       resolve: 'gatsby-plugin-webfonts',
       options: {
         fonts: {
@@ -35,5 +49,7 @@ module.exports = {
       },
     },
     'gatsby-plugin-remove-serviceworker',
+    `gatsby-plugin-offline`,
+
 ],
 };

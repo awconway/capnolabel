@@ -204,8 +204,8 @@ export default function App() {
                         <WaveformSelectorCol>
                             <label htmlFor="segment">Waveform</label>
                             <Spacer axis="horizontal" size={10} />
-                            <input type="number" id="segmentIndex" name="segmentIndex"
-                                min="1" max="121"
+                            <input type="number" inputmode="numeric" id="segmentIndex" name="segmentIndex"
+                                min="1" max="2000"
                                 value={segmentIndex + 1}
                                 onChange={(event) => setSegmentIndex(event.currentTarget.value - 1)}
                             />
