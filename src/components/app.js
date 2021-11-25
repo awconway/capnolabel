@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
 import { useAuth0 } from "@auth0/auth0-react"
 import { ArticleWrapper, gapSize } from "./Base"
@@ -119,6 +119,9 @@ export default function App() {
 
 
     const plotData = waveformData && from(waveformData.capnolabel_segments)
+    const max = waveformData && Math.max.apply(null,
+        plotData.rollup({ co2Array: op.array_agg("co2Wave") }).get("co2Array")
+      )
 
     const pidSelected = waveformData && plotData
         .rollup({
@@ -195,8 +198,8 @@ export default function App() {
             {waveformLoading &&
                 <Loading width={width} height={400} />
             }
-            {plotData && (
-                <LinePlot data={plotData} />
+            {plotData && max && (
+                <LinePlot data={plotData} maxCo2={max} />
             )}
             <Section>
                 <ArticleWrapper>

@@ -55,9 +55,9 @@
     promise-polyfill "^8.2.0"
     unfetch "^4.2.0"
 
-"@awconway/capnolabel-2@https://api.observablehq.com/d/4be68110ce464099.tgz?v=3":
-  version "403.0.0"
-  resolved "https://api.observablehq.com/d/4be68110ce464099.tgz?v=3#5eadcf4a782e3e6b8e2d3b787edb9004f413ef85"
+"@awconway/capnolabel-4@https://api.observablehq.com/d/3929d7439f095b61.tgz?v=3":
+  version "561.0.0"
+  resolved "https://api.observablehq.com/d/3929d7439f095b61.tgz?v=3#8e496f90facbc63b8e39d319669654514aee74d6"
 
 "@babel/code-frame@7.10.4":
   version "7.10.4"

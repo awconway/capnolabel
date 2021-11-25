@@ -1,10 +1,6 @@
 import React from 'react';
-import styled from "styled-components"
 import ContentLoader from "react-content-loader";
-// const LoadingSkeleton = styled(ContentLoader)`
-//     grid-column: 2;
-//     width: 100%;
-// `
+
 export default function Loading({width, height}) {
   return (
     <>

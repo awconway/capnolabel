@@ -2,7 +2,7 @@ import React from "react"
 import Header from "./Header"
 import styled from "styled-components"
 import GlobalStyles from "./GlobalStyles"
-import { gapSize, H3 } from "./Base"
+import { gapSize } from "./Base"
 
 import AuthorizedApolloProvider from "./AuthorizedApolloProvider"
 

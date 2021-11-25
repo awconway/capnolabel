@@ -1,4 +1,4 @@
-import React, { useLabel } from "react"
+import React from "react"
 import styled from "styled-components"
 import TrashIcon from "../images/svg/trash-alt.svg"
 
