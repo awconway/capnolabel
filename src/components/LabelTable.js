@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import TrashIcon from "../images/svg/trash-alt.svg"
+import { gapSize } from "../components/Base"
 
 const LabelTableWrapper = styled.div`
 position:relative;
@@ -26,6 +27,7 @@ text-transform: uppercase;
 `
 const LabelTable = styled.div`
   display: grid;
+  grid-gap: ${gapSize.small};
 `
 const LabelTableRow = styled.output`
   display: grid;
@@ -85,6 +87,7 @@ export default function LabelTableComponent({data, handleDelete}) {
             <LabelTable>
                 {data.labels.map((label, index) => {
                     return (
+                        <>
                         <LabelTableRow key={index}>
                             <LabelCol>{label.segmentIndex}</LabelCol>
                             <LabelTime>{label.label}</LabelTime>
@@ -98,6 +101,7 @@ export default function LabelTableComponent({data, handleDelete}) {
                                 </DeleteButton>
                             </LabelDelete>
                         </LabelTableRow>
+                        </>
                     )
                 }
                 )}

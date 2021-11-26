@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 import { useAuth0 } from "@auth0/auth0-react"
 import { ArticleWrapper, gapSize } from "./Base"
@@ -12,8 +12,7 @@ import Toggle from "./ToggleData";
 import Spacer from "./Spacer"
 import Loading from "./Loading";
 import { useWindowSize } from "@reach/window-size";
-
-
+import { isMobile } from "react-device-detect"
 
 const Section = styled.section`
     display: grid;
@@ -73,25 +72,18 @@ const ModalButtonWrapper = styled.div`
     align-items: center;
     justify-content: flex-end;
     gap: 20px;
-`
+    `
 
 const ModalMessage = styled.div`
     padding: 10px 0px;
-`
+    `
 
-
-const WaveformSelectorWrapper = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-`
 const WaveformSelectorCol = styled.div`
-grid-column: 1;
 display: flex;
-justify-content: left;
+justify-content: center;
 align-items: center;
 `
 const WaveformSelectorLabel = styled.div`
-grid-column: 2;
 display: flex;
 justify-content: center;
 align-items: center;
@@ -99,6 +91,15 @@ align-items: center;
 
 export default function App() {
     const { user, isAuthenticated } = useAuth0()
+
+    const { loading, error, data } = useQuery(QUERY);
+
+    //runs when the data changes which is only on page load
+    useEffect(() => {
+        if (data) {
+            data.labels.length !== 0 ? setSegmentIndex(data.labels.map(label => label.segmentIndex)[0]) : setSegmentIndex(0);
+        }
+    }, [data])
 
     const [segmentIndex, setSegmentIndex] = useState(0)
 
@@ -116,12 +117,13 @@ export default function App() {
 
 
     const { loading: waveformLoading, error: waveformError, data: waveformData } = useQuery(WAVEFORM_QUERY)
+    console.log(waveformError)
 
 
     const plotData = waveformData && from(waveformData.capnolabel_segments)
     const max = waveformData && Math.max.apply(null,
         plotData.rollup({ co2Array: op.array_agg("co2Wave") }).get("co2Array")
-      )
+    )
 
     const pidSelected = waveformData && plotData
         .rollup({
@@ -157,7 +159,6 @@ export default function App() {
 
     const [updateLabels] = useMutation(MUTATION, { update: updateCache })
 
-    const { loading, error, data } = useQuery(QUERY);
 
     const [removeLabelMutation] = useMutation(DELETE_ROW, { update: updateCacheDeletion })
 
@@ -192,29 +193,57 @@ export default function App() {
     const segmentsLabelled = data && data.labels.map(label => label.segmentIndex)
     const idsLabelledIndex = data && currentId && data.labels.map(label => label.id).indexOf(currentId)
     const { width } = useWindowSize();
-
+    const labels = [
+        "normal",
+        "hypopnea",
+        "bradypnea",
+        "breathing - artifact",
+        "artifact"
+    ]
     return (
         <>
             {waveformLoading &&
                 <Loading width={width} height={400} />
             }
+            {waveformError &&
+                <p>There was an error loading the waveform for labelling</p>
+            }
             {plotData && max && (
                 <LinePlot data={plotData} maxCo2={max} />
             )}
-            <Section>
-                <ArticleWrapper>
-                    <WaveformSelectorWrapper>
+            {data && (
+                <Section>
+                    <ArticleWrapper>
                         <WaveformSelectorCol>
                             <label htmlFor="segment">Waveform</label>
                             <Spacer axis="horizontal" size={10} />
                             <input type="number" inputmode="numeric" id="segmentIndex" name="segmentIndex"
-                                min="1" max="2000"
+                                min="1" max="6200"
                                 value={segmentIndex + 1}
                                 onChange={(event) => setSegmentIndex(event.currentTarget.value - 1)}
                             />
+                            <Spacer axis="horizontal" size={10} />
+                            {isMobile && (
+                                <>
+                                    <Button
+                                        variant="fill"
+                                        size="small"
+                                        onClick={() => setSegmentIndex(segmentIndex + 1)}
+                                    >
+                                        Next
+                                    </Button>
+                                    <Button
+                                        variant="fill"
+                                        size="small"
+                                        onClick={() => setSegmentIndex(segmentIndex - 1)}
+                                    >
+                                        Previous
+                                    </Button>
+                                </>
+                            )}
                         </WaveformSelectorCol>
                         <WaveformSelectorLabel>
-                            {["regular", "irregular", "artifact", "no breath", "missing"].map((d, i) => (
+                            {labels.map((d, i) => (
                                 <Toggle
                                     id="toggle"
                                     type="radio"
@@ -244,9 +273,10 @@ export default function App() {
                                 />
                             ))}
                         </WaveformSelectorLabel>
-                    </WaveformSelectorWrapper>
-                </ArticleWrapper>
-            </Section>
+                        {/* </WaveformSelectorWrapper> */}
+                    </ArticleWrapper>
+                </Section>
+            )}
             <Section>
                 <ArticleWrapper>
                     {isAuthenticated && data && (
