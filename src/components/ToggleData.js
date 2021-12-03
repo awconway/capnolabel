@@ -35,7 +35,7 @@ export default function Toggle ({ value,  onChange, checked, text }) {
             {text}
         </LabelWrapper>
     </label>
-    <Spacer axis="horizontal" size={5} />
+    <Spacer axis="vertical" size={10} />
     </>
 
 )}
