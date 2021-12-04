@@ -88,20 +88,21 @@ const ModalMessage = styled.div`
     `
 
 const WaveformSelectorCol = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
 const WaveformSelectorLabel = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
 `
 const ExamplesWrapper = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
 
 const AccordionWrapper = styled(Accordion)`
@@ -114,7 +115,11 @@ const StyledAccordionButton = styled(AccordionButton)`
     padding: 10px;
     cursor: pointer;
     border: none;
-    // margin-bottom: 10px;
+`
+
+const StyledTabList = styled(TabList)`
+    display: flex;
+    flex-wrap: wrap;
 `
 
 export default function App() {
@@ -450,7 +455,7 @@ export default function App() {
             >
                 <ModalMessage>
                     <Tabs onChange={handleNormalTabChange}>
-                        <TabList>
+                        <StyledTabList>
                             <Tab >
                                 normal
                             </Tab>
@@ -469,7 +474,7 @@ export default function App() {
                             <Tab>
                                 artifact
                             </Tab>
-                        </TabList>
+                        </StyledTabList>
                         <TabPanels>
                             <TabPanel>
                                 <Spacer axis="vertical" size={10} />
