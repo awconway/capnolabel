@@ -263,7 +263,7 @@ export default function App() {
     const normalExamples = [12, 340, 330, 329]
     const hypopneaExamples = [14, 293, 265, 149]
     const bradypneaExamples = []
-    const fluctuatingExamples = [236, 235, 234, 233]
+    const fluctuatingExamples = [236, 235, 234, 233, 346]
     const breathingArtifactExamples = [1, 40, 105, 133, 196]
     const artifactExamples = [27, 145, 249, 342, 29]
 
