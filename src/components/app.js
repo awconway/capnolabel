@@ -138,12 +138,12 @@ export default function App() {
 
     const WAVEFORM_QUERY = gql`
     query Waveform {
-        capnolabel_segments(where: {segmentIndex: {_eq: ${segmentIndex + 1}}}, order_by: {timeIndex: asc}) {
+        capnolabel_noBreathLabels(where: {segmentIndex: {_eq: ${segmentIndex + 1}}}, order_by: {timeIndex: asc}) {
             co2Wave
             timeIndex
             segmentIndex
             pid
-            capnoFeatureGroup
+            apneaIndex
         }
     }
     `
@@ -166,7 +166,7 @@ export default function App() {
     const { loading: exampleLoading, error: exampleError, data: exampleWaveformData } = useQuery(EXAMPLE_QUERY)
 
 
-    const plotData = waveformData && from(waveformData.capnolabel_segments)
+    const plotData = waveformData && from(waveformData.capnolabel_noBreathLabels)
     const max = waveformData && Math.max.apply(null,
         plotData.rollup({ co2Array: op.array_agg("co2Wave") }).get("co2Array")
     )
