@@ -143,7 +143,7 @@ export default function App() {
             timeIndex
             segmentIndex
             pid
-            capnoFeatureGroup
+            apneaIndex
         }
     }
     `
@@ -156,7 +156,7 @@ export default function App() {
             timeIndex
             segmentIndex
             pid
-            capnoFeatureGroup
+            apneaIndex
         }
     }
     `
@@ -186,7 +186,7 @@ export default function App() {
 
     const segmentSelected = waveformData && plotData
         .rollup({
-            segment: op.array_agg_distinct("capnoFeatureGroup")
+            segment: op.array_agg_distinct("apneaIndex")
         })
         .get("segment")[0]
 
