@@ -147,7 +147,6 @@ export default function App() {
         }
     }
     `
-
     const [exampleSelection, setExampleSelection] = useState(12)
     const EXAMPLE_QUERY = gql`
     query Example {
@@ -160,12 +159,11 @@ export default function App() {
         }
     }
     `
-
-
+    
+    
     const { loading: waveformLoading, error: waveformError, data: waveformData } = useQuery(WAVEFORM_QUERY)
     const { loading: exampleLoading, error: exampleError, data: exampleWaveformData } = useQuery(EXAMPLE_QUERY)
-
-
+    
     const plotData = waveformData && from(waveformData.capnolabel_noBreathLabels)
     const max = waveformData && Math.max.apply(null,
         plotData.rollup({ co2Array: op.array_agg("co2Wave") }).get("co2Array")
@@ -186,7 +184,7 @@ export default function App() {
 
     const segmentSelected = waveformData && plotData
         .rollup({
-            segment: op.array_agg_distinct("capnoFeatureGroup")
+            segment: op.array_agg_distinct("apneaIndex")
         })
         .get("segment")[0]
 
