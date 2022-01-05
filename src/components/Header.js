@@ -16,7 +16,6 @@ const Icon = styled(SignInIcon)`
     height: 30px;
     display: block;
     fill: var(--white);
-
 `
 const Bell = styled(TagsIcon)`
     pointer-events: none;

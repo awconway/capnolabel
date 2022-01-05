@@ -22,6 +22,28 @@ import {
     AccordionPanel,
 } from "@reach/accordion";
 import "@reach/accordion/styles.css";
+import SaveIcon from "../images/svg/save.svg"
+import TagsIcon from "../images/svg/tags.svg"
+
+const Save = styled(SaveIcon)`
+    width:1.5rem;
+    height: 1.5rem;
+    display: block;
+    grid-column: 1;
+    fill: var(--layoutBg);
+`
+const Tags = styled(TagsIcon)`
+    width:1.5rem;
+    height: 1.5rem;
+    display: block;
+    grid-column: 1;
+    fill: var(--layoutBg);
+`
+
+const IconButtonLayout = styled.div`
+    display: flex;
+    gap: 20px;
+`
 
 const Section = styled.section`
     display: grid;
@@ -31,7 +53,7 @@ const Section = styled.section`
 
 const QUERY = gql`
 query {
-  labels(order_by: {segmentIndex: desc}) {
+  labels(order_by: {segmentIndex: desc}, limit: 100) {
     id
     label
     pid
@@ -103,6 +125,7 @@ const ExamplesWrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 20px;
 `
 
 const AccordionWrapper = styled(Accordion)`
@@ -127,10 +150,10 @@ export default function App() {
 
     const { loading, error, data } = useQuery(QUERY);
 
-    //runs when the data changes which is only on page load
+    //runs when the data changes
     useEffect(() => {
         if (data) {
-            data.labels.length !== 0 ? setSegmentIndex(data.labels.map(label => label.segmentIndex)[0]) : setSegmentIndex(0);
+            data.labels.length !== 0 ? setSegmentIndex(data.labels.map(label => label.segmentIndex)[0] + 1) : setSegmentIndex(0);
         }
     }, [data])
 
@@ -138,7 +161,7 @@ export default function App() {
 
     const WAVEFORM_QUERY = gql`
     query Waveform {
-        capnolabel_noBreathLabels(where: {segmentIndex: {_eq: ${segmentIndex + 1}}}, order_by: {timeIndex: asc}) {
+        capnolabel_noBreathLabels(where: {segmentIndex: {_eq: ${segmentIndex}}}, order_by: {timeIndex: asc}) {
             co2Wave
             timeIndex
             segmentIndex
@@ -159,11 +182,11 @@ export default function App() {
         }
     }
     `
-    
-    
+
+
     const { loading: waveformLoading, error: waveformError, data: waveformData } = useQuery(WAVEFORM_QUERY)
     const { loading: exampleLoading, error: exampleError, data: exampleWaveformData } = useQuery(EXAMPLE_QUERY)
-    
+
     const plotData = waveformData && from(waveformData.capnolabel_noBreathLabels)
     const max = waveformData && Math.max.apply(null,
         plotData.rollup({ co2Array: op.array_agg("co2Wave") }).get("co2Array")
@@ -173,7 +196,6 @@ export default function App() {
     const exampleMax = exampleWaveformData && Math.max.apply(null,
         exampleData.rollup({ co2Array: op.array_agg("co2Wave") }).get("co2Array")
     )
-
 
     const pidSelected = waveformData && plotData
         .rollup({
@@ -253,6 +275,7 @@ export default function App() {
     ]
 
     const [showArtifactExample, setShowArtifactExample] = useState(false)
+    const [showSavedLabels, setShowSavedLabels] = useState(false)
 
     const abortArtifactExample = () => {
         setShowArtifactExample(false)
@@ -308,28 +331,20 @@ export default function App() {
             }
             {plotData && max && (
                 <>
-                    <ExamplesWrapper>
-                        <Button
-                            variant="fill"
-                            size="small"
-                            onClick={() => setShowArtifactExample(true)}
-                        >
-                            Show me examples
-                        </Button>
-                    </ExamplesWrapper>
                     <LinePlot data={plotData} maxCo2={max} />
                 </>
             )}
             {data && (
+                <>
                 <Section>
                     <ArticleWrapper>
                         <WaveformSelectorCol>
                             <label htmlFor="segment">Waveform</label>
                             <Spacer axis="horizontal" size={10} />
                             <input type="number" inputmode="numeric" id="segmentIndex" name="segmentIndex"
-                                min="1" max="6200"
-                                value={segmentIndex + 1}
-                                onChange={(event) => setSegmentIndex(event.currentTarget.value - 1)}
+                                min="0" max="6000"
+                                value={segmentIndex}
+                                onChange={(event) => setSegmentIndex(Number(event.currentTarget.value))}
                             />
                             <Spacer axis="horizontal" size={10} />
                             {isMobile && (
@@ -360,7 +375,7 @@ export default function App() {
                                     value={d}
                                     onChange={(e) => {
                                         setLabel(e.currentTarget.value)
-                                        if (segmentsLabelled.includes(segmentIndex + 1)) {
+                                        if (segmentsLabelled.includes(segmentIndex)) {
                                             setShowAlert(true)
                                         }
                                         else {
@@ -369,12 +384,11 @@ export default function App() {
                                                     label: e.target.value,
                                                     pid: pidSelected,
                                                     segment: segmentSelected,
-                                                    segmentIndex: segmentIndex + 1,
+                                                    segmentIndex: segmentIndex,
                                                     user_id: user.sub
                                                 }
                                             });
                                             setLabel(null)
-                                            setSegmentIndex(segmentIndex + 1)
                                         }
                                     }}
                                     checked={label === d}
@@ -385,9 +399,39 @@ export default function App() {
                         </WaveformSelectorLabel>
                     </ArticleWrapper>
                 </Section>
-            )}
             <Section>
                 <ArticleWrapper>
+                    <ExamplesWrapper>
+                        <Button
+                            variant="fill"
+                            size="small"
+                            onClick={() => setShowSavedLabels(true)}
+                        >
+                            <IconButtonLayout>
+                                <Save />
+                                Saved labels
+                            </IconButtonLayout>
+                        </Button>
+                        <Button
+                            variant="fill"
+                            size="small"
+                            onClick={() => setShowArtifactExample(true)}
+                        >
+                            <IconButtonLayout>
+                                <Tags />
+                                Examples
+                            </IconButtonLayout>
+                        </Button>
+                    </ExamplesWrapper>
+                </ArticleWrapper>
+            </Section>
+            </>
+            )}
+            <Modal
+                isOpen={showSavedLabels}
+                handleDismiss={() => setShowSavedLabels(false)}
+            >
+                <ModalMessage>
                     {isAuthenticated && data && (
                         <LabelTableComponent data={data} handleDelete={handleDelete} />
                     )}
@@ -397,10 +441,9 @@ export default function App() {
                     {isAuthenticated && loading && (
                         <p>Loading saved data...</p>
                     )}
-                </ArticleWrapper>
-            </Section>
+                </ModalMessage>
+            </Modal>
             <Modal
-                title="Delete"
                 isOpen={showModal}
                 handleDismiss={() => setShowModal(false)}
             >
@@ -432,7 +475,7 @@ export default function App() {
                 handleDismiss={abortAlert}
             >
                 <ModalMessage>
-                    You have already labelled waveform number {segmentIndex + 1}.
+                    You have already labelled waveform number {segmentIndex}.
                     You will need to delete the saved label first if
                     you want to make a correction.
                 </ModalMessage>
@@ -447,7 +490,6 @@ export default function App() {
                 </ModalButtonWrapper>
             </Modal>
             <Modal
-                title="Examples of labels"
                 isOpen={showArtifactExample}
                 handleDismiss={abortArtifactExample}
             >

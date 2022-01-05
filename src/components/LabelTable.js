@@ -7,15 +7,13 @@ const LabelTableWrapper = styled.div`
 position:relative;
 height: var(--inOutHeight);
 overflow: auto;
-background-color: hsl(243deg 12% 28%);
 padding: 40px;
 border-radius:var(--borderRadius);
   &:before {
 content: "saved labels";
 display: inline-block;
-border-radius: var(--borderRadius);
-background: hsl(60deg 0% 97%);
-color: var(--layoutBg);
+background: var(--layoutBg);
+color: var(--white);
 padding: 0 0.5rem;
 position: absolute;
 top: 10px;

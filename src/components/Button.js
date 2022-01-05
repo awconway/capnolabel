@@ -4,17 +4,17 @@ import styled, { css } from "styled-components";
 
 const SIZES = {
   small: {
-    "--borderRadius": 2 + "px",
+    // "--borderRadius": 2 + "px",
     "--fontSize": 16 / 16 + "rem",
     "--padding": "4px 12px"
   },
   medium: {
-    "--borderRadius": 2 + "px",
+    // "--borderRadius": 2 + "px",
     "--fontSize": 18 / 16 + "rem",
     "--padding": "12px 20px"
   },
   large: {
-    "--borderRadius": 4 + "px",
+    // "--borderRadius": 4 + "px",
     "--fontSize": 21 / 16 + "rem",
     "--padding": "16px 32px"
   }
@@ -48,7 +48,7 @@ const Button = ({ variant, size, children, onClick, name, disabled, key }) => {
 const ButtonBase = styled.button`
     font-size: var(--fontSize);
     padding: var(--padding);
-    border-radius: var(--borderRadius);
+    // border-radius: var(--borderRadius);
     border: 2px solid transparent;
     outline-color: var(--layoutBg);
     cursor: pointer;

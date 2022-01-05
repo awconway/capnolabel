@@ -51,7 +51,6 @@ const Overlay = styled(DialogOverlay)`
 const Content = styled(DialogContent)`
   position: relative;
   background: white;
-  border-radius: 8px;
   width: 80%;
 
   @media (max-width: ${MOBILE_BREAKPOINT}px) {
