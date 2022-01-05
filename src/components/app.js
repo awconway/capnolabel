@@ -153,20 +153,20 @@ export default function App() {
     //runs when the data changes
     useEffect(() => {
         if (data) {
-            data.labels.length !== 0 ? setSegmentIndex(data.labels.map(label => label.segmentIndex)[0] + 1) : setSegmentIndex(0);
+            data.labels.length !== 0 ? setSegmentIndex(data.labels.map(label => label.segmentIndex)[0] + 1) : setSegmentIndex(1);
         }
     }, [data])
 
-    const [segmentIndex, setSegmentIndex] = useState(0)
+    const [segmentIndex, setSegmentIndex] = useState(1)
 
     const WAVEFORM_QUERY = gql`
     query Waveform {
-        capnolabel_noBreathLabels(where: {segmentIndex: {_eq: ${segmentIndex}}}, order_by: {timeIndex: asc}) {
+        capnolabel_segments(where: {segmentIndex: {_eq: ${segmentIndex}}}, order_by: {timeIndex: asc}) {
             co2Wave
             timeIndex
             segmentIndex
             pid
-            apneaIndex
+            capnoFeatureGroup
         }
     }
     `
@@ -187,7 +187,7 @@ export default function App() {
     const { loading: waveformLoading, error: waveformError, data: waveformData } = useQuery(WAVEFORM_QUERY)
     const { loading: exampleLoading, error: exampleError, data: exampleWaveformData } = useQuery(EXAMPLE_QUERY)
 
-    const plotData = waveformData && from(waveformData.capnolabel_noBreathLabels)
+    const plotData = waveformData && from(waveformData.capnolabel_segments)
     const max = waveformData && Math.max.apply(null,
         plotData.rollup({ co2Array: op.array_agg("co2Wave") }).get("co2Array")
     )
@@ -206,7 +206,7 @@ export default function App() {
 
     const segmentSelected = waveformData && plotData
         .rollup({
-            segment: op.array_agg_distinct("apneaIndex")
+            segment: op.array_agg_distinct("capnoFeatureGroup")
         })
         .get("segment")[0]
 
