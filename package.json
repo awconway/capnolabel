@@ -41,7 +41,7 @@
     "gatsby-plugin-styled-components": "^5.1.0",
     "gatsby-plugin-webfonts": "^2.1.1",
     "gatsby-source-filesystem": "^4.1.1",
-    "graphql": "^16.0.1",
+    "graphql": "^16.2.0",
     "react": "^17.0.1",
     "react-content-loader": "^6.0.3",
     "react-device-detect": "^2.1.2",
