@@ -270,6 +270,7 @@ export default function App() {
         "hypopnea",
         "bradypnea",
         "fluctuating return to baseline",
+        "fluctuating upslope plateau",
         "breathing with artifact",
         "artifact"
     ]
@@ -284,8 +285,9 @@ export default function App() {
     const normalExamples = [12, 340, 330, 329]
     const hypopneaExamples = [14, 293, 265, 149]
     const bradypneaExamples = []
-    const fluctuatingExamples = [236, 235, 234, 233, 346]
-    const breathingArtifactExamples = [1, 40, 105, 133, 196]
+    const fluctuatingExamples = [236, 235, 234, 233, 346, 133]
+    const fluctuatingUpslopeExamples = []
+    const breathingArtifactExamples = [1, 40, 105,  196]
     const artifactExamples = [27, 145, 249, 342, 29]
 
 
@@ -307,12 +309,16 @@ export default function App() {
             case 3:
                 setExampleSelection(fluctuatingExamples[0]);
                 break;
-            //breathing-artifact tab
+            //fluctuating upslope tab
             case 4:
+                setExampleSelection(fluctuatingUpslopeExamples[0]);
+                break;
+            //breathing-artifact tab
+            case 5:
                 setExampleSelection(breathingArtifactExamples[0]);
                 break;
             //artifact tab
-            case 5:
+            case 6:
                 setExampleSelection(artifactExamples[0]);
                 break;
             default:
@@ -506,7 +512,10 @@ export default function App() {
                                 bradypnea
                             </Tab>
                             <Tab>
-                                fluctuating
+                                fluctuating to baseline
+                            </Tab>
+                            <Tab>
+                                fluctuating upslope
                             </Tab>
                             <Tab>
                                 breathing with artifact
@@ -599,6 +608,32 @@ export default function App() {
                                 {/* fluctuating to basline examples */}
                                 <AccordionWrapper>
                                     {fluctuatingExamples.map((d, i) => (
+                                        <AccordionItem>
+                                            <StyledAccordionButton onClick={() => setExampleSelection(d)}>
+                                                Example {i + 1}
+                                            </StyledAccordionButton>
+                                            <AccordionPanel>
+                                                {exampleLoading &&
+                                                    <p>Loading...</p>
+                                                }
+                                                {exampleError &&
+                                                    <p>There was an error loading the waveform for labelling</p>
+                                                }
+                                                {exampleData && exampleMax && (
+                                                    <LinePlot data={exampleData} maxCo2={exampleMax} />
+                                                )
+                                                }
+                                            </AccordionPanel>
+                                        </AccordionItem>
+                                    )
+                                    )}
+                                </AccordionWrapper>
+                            </TabPanel>
+                            <TabPanel>
+                                <Spacer axis="vertical" size={10} />
+                                {/* fluctuating upslope examples */}
+                                <AccordionWrapper>
+                                    {fluctuatingUpslopeExamples.map((d, i) => (
                                         <AccordionItem>
                                             <StyledAccordionButton onClick={() => setExampleSelection(d)}>
                                                 Example {i + 1}
