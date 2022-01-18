@@ -5084,7 +5084,7 @@ gatsby-cli@^4.5.2:
     yoga-layout-prebuilt "^1.10.0"
     yurnalist "^2.1.0"
 
-gatsby-core-utils@^3.5.1, gatsby-core-utils@^3.5.2:
+gatsby-core-utils@^3.5.2:
   version "3.5.2"
   resolved "https://registry.yarnpkg.com/gatsby-core-utils/-/gatsby-core-utils-3.5.2.tgz#f95e1d9034811029a1db85479a1a2bfd456818db"
   integrity sha512-sY7BD6VlbWwrV892x9/yJPtXYaGC/GLyhabd9j2xP6zsIOW0XBHXZ4jJ+xEPaRn3CJxYgBd8KdCyoc4h1ZEFzg==
@@ -5146,16 +5146,16 @@ gatsby-plugin-create-client-paths@^4.5.0:
   dependencies:
     "@babel/runtime" "^7.15.4"
 
-gatsby-plugin-gatsby-cloud@^4.5.1:
-  version "4.5.1"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-gatsby-cloud/-/gatsby-plugin-gatsby-cloud-4.5.1.tgz#b7ce36309e251d6469c7d81a56d62df63a2ce24d"
-  integrity sha512-mvqtwMn1RrlsuX4wgpzrEhW8ynVuxLYWBD6VmZ0U+X9+f4LEqpc3kbiULCsCL/jqWy7MWavndnClLqxKgPGKCw==
+gatsby-plugin-gatsby-cloud@^4.5.2:
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-gatsby-cloud/-/gatsby-plugin-gatsby-cloud-4.5.2.tgz#8ec4fa8cdf296e08a0d4999b755b4626c8532984"
+  integrity sha512-aloSM+XVuideA7ZIAO1pOBb8pC+QYq873MMDWGPZt1O61ZbtfgEkigzuSbGZqcmrPnJT37n/iia6Q/PC0/YEkA==
   dependencies:
     "@babel/runtime" "^7.15.4"
     date-fns "^2.28.0"
     fs-extra "^10.0.0"
-    gatsby-core-utils "^3.5.1"
-    gatsby-telemetry "^3.5.1"
+    gatsby-core-utils "^3.5.2"
+    gatsby-telemetry "^3.5.2"
     kebab-hash "^0.1.2"
     lodash "^4.17.21"
     webpack-assets-manifest "^5.0.6"
@@ -5261,7 +5261,7 @@ gatsby-source-filesystem@^4.5.2:
     valid-url "^1.0.9"
     xstate "^4.26.1"
 
-gatsby-telemetry@^3.5.1, gatsby-telemetry@^3.5.2:
+gatsby-telemetry@^3.5.2:
   version "3.5.2"
   resolved "https://registry.yarnpkg.com/gatsby-telemetry/-/gatsby-telemetry-3.5.2.tgz#e6434a12e1c88a64078c8af4c9042f2df631f49c"
   integrity sha512-nL33+AxawRqEjuvHAbyyxoDMZ5GXNMEMzCk5WQu7J/lA6od6cUmXpZMcr4AxwnNFJLfmYKlwalN7cuz5nBL6lw==
