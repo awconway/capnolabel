@@ -143,6 +143,14 @@ const StyledAccordionButton = styled(AccordionButton)`
 const StyledTabList = styled(TabList)`
     display: flex;
     flex-wrap: wrap;
+   
+`
+const StyledTab = styled(Tab)`
+    &:not(:last-of-type) {
+        &:after {
+        content: " | "
+    }
+    }
 `
 
 export default function App() {
@@ -271,6 +279,7 @@ export default function App() {
         "bradypnea",
         "fluctuating return to baseline",
         "fluctuating upslope plateau",
+        "pointed",
         "breathing with artifact",
         "artifact"
     ]
@@ -287,6 +296,7 @@ export default function App() {
     const bradypneaExamples = []
     const fluctuatingExamples = [236, 235, 234, 233, 346, 133]
     const fluctuatingUpslopeExamples = []
+    const pointedExamples = [2, 13, 15, 16, 22, 28, 31]
     const breathingArtifactExamples = [1, 40, 105,  196]
     const artifactExamples = [27, 145, 249, 342, 29]
 
@@ -313,12 +323,16 @@ export default function App() {
             case 4:
                 setExampleSelection(fluctuatingUpslopeExamples[0]);
                 break;
-            //breathing-artifact tab
+            //pointed tab
             case 5:
+                setExampleSelection(pointedExamples[0]);
+                break;
+            //breathing-artifact tab
+            case 6:
                 setExampleSelection(breathingArtifactExamples[0]);
                 break;
             //artifact tab
-            case 6:
+            case 7:
                 setExampleSelection(artifactExamples[0]);
                 break;
             default:
@@ -502,27 +516,30 @@ export default function App() {
                 <ModalMessage>
                     <Tabs onChange={handleNormalTabChange}>
                         <StyledTabList>
-                            <Tab >
+                            <StyledTab>
                                 normal
-                            </Tab>
-                            <Tab>
+                            </StyledTab>
+                            <StyledTab>
                                 hypopnea
-                            </Tab>
-                            <Tab>
+                            </StyledTab>
+                            <StyledTab>
                                 bradypnea
-                            </Tab>
-                            <Tab>
+                            </StyledTab>
+                            <StyledTab>
                                 fluctuating to baseline
-                            </Tab>
-                            <Tab>
+                            </StyledTab>
+                            <StyledTab>
                                 fluctuating upslope
-                            </Tab>
-                            <Tab>
+                            </StyledTab>
+                            <StyledTab>
+                                pointed
+                            </StyledTab>
+                            <StyledTab>
                                 breathing with artifact
-                            </Tab>
-                            <Tab>
+                            </StyledTab>
+                            <StyledTab>
                                 artifact
-                            </Tab>
+                            </StyledTab>
                         </StyledTabList>
                         <TabPanels>
                             <TabPanel>
@@ -634,6 +651,32 @@ export default function App() {
                                 {/* fluctuating upslope examples */}
                                 <AccordionWrapper>
                                     {fluctuatingUpslopeExamples.map((d, i) => (
+                                        <AccordionItem>
+                                            <StyledAccordionButton onClick={() => setExampleSelection(d)}>
+                                                Example {i + 1}
+                                            </StyledAccordionButton>
+                                            <AccordionPanel>
+                                                {exampleLoading &&
+                                                    <p>Loading...</p>
+                                                }
+                                                {exampleError &&
+                                                    <p>There was an error loading the waveform for labelling</p>
+                                                }
+                                                {exampleData && exampleMax && (
+                                                    <LinePlot data={exampleData} maxCo2={exampleMax} />
+                                                )
+                                                }
+                                            </AccordionPanel>
+                                        </AccordionItem>
+                                    )
+                                    )}
+                                </AccordionWrapper>
+                            </TabPanel>
+                            <TabPanel>
+                                <Spacer axis="vertical" size={10} />
+                                {/* pointed examples */}
+                                <AccordionWrapper>
+                                    {pointedExamples.map((d, i) => (
                                         <AccordionItem>
                                             <StyledAccordionButton onClick={() => setExampleSelection(d)}>
                                                 Example {i + 1}
