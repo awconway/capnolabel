@@ -406,7 +406,7 @@ export default function App() {
                     <Section>
                         <ArticleWrapper>
                             <CurrentLabelWrapper>
-                                {currentLabel === 'not labelled' ?
+                                {data && currentLabel === 'not labelled' ?
                                     (
                                         <WarningBox>
                                             <WarningIcon />
