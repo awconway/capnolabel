@@ -24,8 +24,6 @@ import {
 import "@reach/accordion/styles.css";
 import SaveIcon from "../images/svg/save.svg"
 import TagsIcon from "../images/svg/tags.svg"
-import TimesCircle from "../images/svg/times-circle.svg"
-import CheckCircle from "../images/svg/check-circle.svg"
 
 const Save = styled(SaveIcon)`
     width:1.5rem;
@@ -153,46 +151,6 @@ const StyledTab = styled(Tab)`
         content: " | "
     }
     }
-`
-
-const CurrentLabelWrapper = styled.div`
-    display:flex;
-    justify-content: center;
-    align-items: center;
-
-`
-
-const WarningBox = styled.div`
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    background-color: #FFD2D2;
-    color:  #D8000C;
-    padding: 5px 10px;
-    font-size: 0.8rem;
-    max-width: fit-content;
-`
-
-const WarningIcon = styled(TimesCircle)`
-    height: 0.8rem;
-    fill:  #D8000C;
-`
-const SuccessBox = styled.div`
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    background-color: #D4E6DD;
-    color:  #38A070;
-    padding: 5px 10px;
-    font-size: 0.8rem;
-    max-width: fit-content;
-`
-
-const SuccessIcon = styled(CheckCircle)`
-    height: 0.8rem;
-    fill:  #38A070;
 `
 
 export default function App() {
@@ -384,9 +342,6 @@ export default function App() {
 
 
 
-    const currentLabel = data && segmentIndex < data.labels.length + 1 ? data.labels.filter(d => d.segmentIndex === segmentIndex)[0].label : "not labelled"
-
-
 
     return (
         <>
@@ -405,24 +360,6 @@ export default function App() {
                 <>
                     <Section>
                         <ArticleWrapper>
-                            <CurrentLabelWrapper>
-                                {data && currentLabel === 'not labelled' ?
-                                    (
-                                        <WarningBox>
-                                            <WarningIcon />
-                                            <p>{currentLabel}</p>
-                                        </WarningBox>)
-                                    :
-                                    (
-                                        <SuccessBox>
-                                            <SuccessIcon />
-                                            <p>{currentLabel}</p>
-                                        </SuccessBox>)
-
-
-                                }
-
-                            </CurrentLabelWrapper>
                             <WaveformSelectorCol>
                                 <label htmlFor="segment">Waveform</label>
                                 <Spacer axis="horizontal" size={10} />
