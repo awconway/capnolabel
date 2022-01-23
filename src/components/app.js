@@ -384,7 +384,7 @@ export default function App() {
 
 
 
-    const currentLabel = data && segmentIndex < data.labels.length + 1 ? data.labels.filter(d => d.segmentIndex == segmentIndex)[0].label : "not labelled"
+    const currentLabel = data && segmentIndex < data.labels.length + 1 ? data.labels.filter(d => d.segmentIndex === segmentIndex)[0].label : "not labelled"
 
 
 
