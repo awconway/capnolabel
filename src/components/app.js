@@ -24,6 +24,8 @@ import {
 import "@reach/accordion/styles.css";
 import SaveIcon from "../images/svg/save.svg"
 import TagsIcon from "../images/svg/tags.svg"
+import TimesCircle from "../images/svg/times-circle.svg"
+import CheckCircle from "../images/svg/check-circle.svg"
 
 const Save = styled(SaveIcon)`
     width:1.5rem;
@@ -151,6 +153,46 @@ const StyledTab = styled(Tab)`
         content: " | "
     }
     }
+`
+
+const CurrentLabelWrapper = styled.div`
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
+`
+
+const WarningBox = styled.div`
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background-color: #FFD2D2;
+    color:  #D8000C;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    max-width: fit-content;
+`
+
+const WarningIcon = styled(TimesCircle)`
+    height: 0.8rem;
+    fill:  #D8000C;
+`
+const SuccessBox = styled.div`
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background-color: #D4E6DD;
+    color:  #38A070;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    max-width: fit-content;
+`
+
+const SuccessIcon = styled(CheckCircle)`
+    height: 0.8rem;
+    fill:  #38A070;
 `
 
 export default function App() {
@@ -297,7 +339,7 @@ export default function App() {
     const fluctuatingExamples = [236, 235, 234, 233, 346, 133]
     const fluctuatingUpslopeExamples = []
     const pointedExamples = [2, 13, 15, 16, 22, 28, 31]
-    const breathingArtifactExamples = [1, 40, 105,  196]
+    const breathingArtifactExamples = [1, 40, 105, 196]
     const artifactExamples = [27, 145, 249, 342, 29]
 
 
@@ -341,6 +383,11 @@ export default function App() {
     }
 
 
+
+    const currentLabel = data && segmentIndex < data.labels.length + 1 ? data.labels.filter(d => d.segmentIndex == segmentIndex)[0].label : "not labelled"
+
+
+
     return (
         <>
             {waveformLoading &&
@@ -356,96 +403,114 @@ export default function App() {
             )}
             {data && (
                 <>
-                <Section>
-                    <ArticleWrapper>
-                        <WaveformSelectorCol>
-                            <label htmlFor="segment">Waveform</label>
-                            <Spacer axis="horizontal" size={10} />
-                            <input type="number" inputmode="numeric" id="segmentIndex" name="segmentIndex"
-                                min="0" max="6000"
-                                value={segmentIndex}
-                                onChange={(event) => setSegmentIndex(Number(event.currentTarget.value))}
-                            />
-                            <Spacer axis="horizontal" size={10} />
-                            {isMobile && (
-                                <>
-                                    <Button
-                                        variant="fill"
-                                        size="small"
-                                        onClick={() => setSegmentIndex(segmentIndex - 1)}
-                                    >
-                                        Previous
-                                    </Button>
-                                    <Button
-                                        variant="fill"
-                                        size="small"
-                                        onClick={() => setSegmentIndex(segmentIndex + 1)}
-                                    >
-                                        Next
-                                    </Button>
-                                </>
-                            )}
-                        </WaveformSelectorCol>
-                        <WaveformSelectorLabel>
-                            {labels.map((d, i) => (
-                                <Toggle
-                                    id="toggle"
-                                    type="radio"
-                                    name="label"
-                                    value={d}
-                                    onChange={(e) => {
-                                        setLabel(e.currentTarget.value)
-                                        if (segmentsLabelled.includes(segmentIndex)) {
-                                            setShowAlert(true)
-                                        }
-                                        else {
-                                            updateLabels({
-                                                variables: {
-                                                    label: e.target.value,
-                                                    pid: pidSelected,
-                                                    segment: segmentSelected,
-                                                    segmentIndex: segmentIndex,
-                                                    user_id: user.sub
-                                                }
-                                            });
-                                            setLabel(null)
-                                        }
-                                    }}
-                                    checked={label === d}
-                                    text={d}
-                                />
+                    <Section>
+                        <ArticleWrapper>
+                            <CurrentLabelWrapper>
+                                {currentLabel === 'not labelled' ?
+                                    (
+                                        <WarningBox>
+                                            <WarningIcon />
+                                            <p>{currentLabel}</p>
+                                        </WarningBox>)
+                                    :
+                                    (
+                                        <SuccessBox>
+                                            <SuccessIcon />
+                                            <p>{currentLabel}</p>
+                                        </SuccessBox>)
 
-                            ))}
-                        </WaveformSelectorLabel>
-                    </ArticleWrapper>
-                </Section>
-            <Section>
-                <ArticleWrapper>
-                    <ExamplesWrapper>
-                        <Button
-                            variant="fill"
-                            size="small"
-                            onClick={() => setShowSavedLabels(true)}
-                        >
-                            <IconButtonLayout>
-                                <Save />
-                                Saved labels
-                            </IconButtonLayout>
-                        </Button>
-                        <Button
-                            variant="fill"
-                            size="small"
-                            onClick={() => setShowArtifactExample(true)}
-                        >
-                            <IconButtonLayout>
-                                <Tags />
-                                Examples
-                            </IconButtonLayout>
-                        </Button>
-                    </ExamplesWrapper>
-                </ArticleWrapper>
-            </Section>
-            </>
+
+                                }
+
+                            </CurrentLabelWrapper>
+                            <WaveformSelectorCol>
+                                <label htmlFor="segment">Waveform</label>
+                                <Spacer axis="horizontal" size={10} />
+                                <input type="number" inputmode="numeric" id="segmentIndex" name="segmentIndex"
+                                    min="0" max="6000"
+                                    value={segmentIndex}
+                                    onChange={(event) => setSegmentIndex(Number(event.currentTarget.value))}
+                                />
+                                <Spacer axis="horizontal" size={10} />
+                                {isMobile && (
+                                    <>
+                                        <Button
+                                            variant="fill"
+                                            size="small"
+                                            onClick={() => setSegmentIndex(segmentIndex - 1)}
+                                        >
+                                            Previous
+                                        </Button>
+                                        <Button
+                                            variant="fill"
+                                            size="small"
+                                            onClick={() => setSegmentIndex(segmentIndex + 1)}
+                                        >
+                                            Next
+                                        </Button>
+                                    </>
+                                )}
+                            </WaveformSelectorCol>
+                            <WaveformSelectorLabel>
+                                {labels.map((d, i) => (
+                                    <Toggle
+                                        id="toggle"
+                                        type="radio"
+                                        name="label"
+                                        value={d}
+                                        onChange={(e) => {
+                                            setLabel(e.currentTarget.value)
+                                            if (segmentsLabelled.includes(segmentIndex)) {
+                                                setShowAlert(true)
+                                            }
+                                            else {
+                                                updateLabels({
+                                                    variables: {
+                                                        label: e.target.value,
+                                                        pid: pidSelected,
+                                                        segment: segmentSelected,
+                                                        segmentIndex: segmentIndex,
+                                                        user_id: user.sub
+                                                    }
+                                                });
+                                                setLabel(null)
+                                            }
+                                        }}
+                                        checked={label === d}
+                                        text={d}
+                                    />
+
+                                ))}
+                            </WaveformSelectorLabel>
+                        </ArticleWrapper>
+                    </Section>
+                    <Section>
+                        <ArticleWrapper>
+                            <ExamplesWrapper>
+                                <Button
+                                    variant="fill"
+                                    size="small"
+                                    onClick={() => setShowSavedLabels(true)}
+                                >
+                                    <IconButtonLayout>
+                                        <Save />
+                                        Saved labels
+                                    </IconButtonLayout>
+                                </Button>
+                                <Button
+                                    variant="fill"
+                                    size="small"
+                                    onClick={() => setShowArtifactExample(true)}
+                                >
+                                    <IconButtonLayout>
+                                        <Tags />
+                                        Examples
+                                    </IconButtonLayout>
+                                </Button>
+                            </ExamplesWrapper>
+                        </ArticleWrapper>
+                    </Section>
+                </>
             )}
             <Modal
                 isOpen={showSavedLabels}
