@@ -1400,9 +1400,9 @@
     isoformat "^0.2.0"
 
 "@observablehq/runtime@4":
-  version "4.18.3"
-  resolved "https://registry.yarnpkg.com/@observablehq/runtime/-/runtime-4.18.3.tgz#c915c572cb4ec9f112db876a83ac9f83a30208b4"
-  integrity sha512-SSJ1z3tWiBnfJIluASD0ZrP6HhUglzUpyWzjutoxVTqcZY9SrPUDiTbiA/UzX5tNkTsU/zwQ4//A0oBYcJtj3A==
+  version "4.18.4"
+  resolved "https://registry.yarnpkg.com/@observablehq/runtime/-/runtime-4.18.4.tgz#16b3b43ab93f4619423f5551f814f12d5f1da563"
+  integrity sha512-BOzYh9dD/zwfgKtoHU6/oXaUHdHtF2Zpv7HyadqrTzFozyeDIMX7c2Nf/1JXwsAtl/SoVFjAuThvTGSMZ1g5qg==
   dependencies:
     "@observablehq/inspector" "^3.2.2"
     "@observablehq/stdlib" "^3.4.1"
@@ -5195,10 +5195,10 @@ gatsby-plugin-react-svg@^3.1.0:
   dependencies:
     svg-react-loader "^0.4.6"
 
-gatsby-plugin-styled-components@^5.5.0:
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-styled-components/-/gatsby-plugin-styled-components-5.5.0.tgz#c251c29d28fa941cfaf990dd4b6d6d20d180a782"
-  integrity sha512-XYDKMXF3GYCFZrW5HfLGb9elDxCfZWoSYyDUZ6j6rBhuaRlNDwBtRyyEmnTBEOS0e3+v65XwJWBx78+2QMljXw==
+gatsby-plugin-styled-components@^5.6.0:
+  version "5.6.0"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-styled-components/-/gatsby-plugin-styled-components-5.6.0.tgz#adbb6bb964d33c604831e247aac3af3a5ce8d699"
+  integrity sha512-D/LmioFAA0l6fe3+q0/Y6zj7i9TAJBWhFq3htHHIP8kGbK1gUlRMqLXjdHVo7aYnKqHb76X7kHyjoyYfD2s3aA==
   dependencies:
     "@babel/runtime" "^7.15.4"
 
