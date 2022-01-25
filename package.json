@@ -31,7 +31,7 @@
     "apollo-link-batch-http": "^1.2.14",
     "apollo-link-retry": "^2.2.16",
     "arquero": "^4.8.8",
-    "auth0-js": "^9.18.1",
+    "auth0-js": "^9.19.0",
     "babel-plugin-styled-components": "^2.0.2",
     "gatsby": "^4.5.5",
     "gatsby-plugin-create-client-paths": "^4.6.0",
