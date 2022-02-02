@@ -116,10 +116,11 @@ const WaveformSelectorCol = styled.div`
 `
 const WaveformSelectorLabel = styled.div`
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
+    // flex-wrap: wrap;
+    // gap: 10px;
 `
 const ExamplesWrapper = styled.div`
     display: flex;
@@ -174,11 +175,11 @@ export default function App() {
             timeIndex
             segmentIndex
             pid
-            capnoFeatureGroup
+            apneaIndex
         }
     }
     `
-    const [exampleSelection, setExampleSelection] = useState(12)
+    const [exampleSelection, setExampleSelection] = useState(1)
     const EXAMPLE_QUERY = gql`
     query Example {
         capnolabel_segments(where: {segmentIndex: {_eq: ${exampleSelection}}}, order_by: {timeIndex: asc}) {
@@ -186,7 +187,7 @@ export default function App() {
             timeIndex
             segmentIndex
             pid
-            capnoFeatureGroup
+            apneaIndex
         }
     }
     `
@@ -214,7 +215,7 @@ export default function App() {
 
     const segmentSelected = waveformData && plotData
         .rollup({
-            segment: op.array_agg_distinct("capnoFeatureGroup")
+            segment: op.array_agg_distinct("apneaIndex")
         })
         .get("segment")[0]
 
@@ -273,15 +274,12 @@ export default function App() {
     const segmentsLabelled = data && data.labels.map(label => label.segmentIndex)
     const idsLabelledIndex = data && currentId && data.labels.map(label => label.id).indexOf(currentId)
     const { width } = useWindowSize();
-    const labels = [
-        "normal",
-        "hypopnea",
-        "bradypnea",
-        "fluctuating return to baseline",
-        "fluctuating upslope plateau",
-        "pointed",
-        "breathing with artifact",
-        "artifact"
+    
+    const LABELS = [
+        "breathing -> breathing",
+        "breathing -> no breath",
+        // "artifact -> no breath",
+        "artifact -> artifact"
     ]
 
     const [showArtifactExample, setShowArtifactExample] = useState(false)
@@ -291,52 +289,24 @@ export default function App() {
         setShowArtifactExample(false)
     }
 
-    const normalExamples = [12, 340, 330, 329]
-    const hypopneaExamples = [14, 293, 265, 149]
-    const bradypneaExamples = []
-    const fluctuatingExamples = [236, 235, 234, 233, 346, 133]
-    const fluctuatingUpslopeExamples = []
-    const pointedExamples = [2, 13, 15, 16, 22, 28, 31]
-    const breathingArtifactExamples = [1, 40, 105, 196]
-    const artifactExamples = [27, 145, 249, 342, 29]
 
+    const artifactToArtifactExamples = [1,3, 28, 25, 34, 41, 47, 51, 55 ]
+    const breathingToBreathingExamples = [11, 84, 30, 31, 43, 46, 52]
+    const breathingToNoBreathExamples = [24,23, 2, 13, 14, 26, 33, 36]
 
     const handleNormalTabChange = (index) => {
         switch (index) {
-            //normal tab
             case 0:
-                setExampleSelection(normalExamples[0]);
+                setExampleSelection(breathingToBreathingExamples[0]);
                 break;
-            //hypopnea tab
             case 1:
-                setExampleSelection(hypopneaExamples[0]);
+                setExampleSelection(breathingToNoBreathExamples[0]);
                 break;
-            //bradypnea tab
             case 2:
-                setExampleSelection(bradypneaExamples[0]);
-                break;
-            //fluctuating tab
-            case 3:
-                setExampleSelection(fluctuatingExamples[0]);
-                break;
-            //fluctuating upslope tab
-            case 4:
-                setExampleSelection(fluctuatingUpslopeExamples[0]);
-                break;
-            //pointed tab
-            case 5:
-                setExampleSelection(pointedExamples[0]);
-                break;
-            //breathing-artifact tab
-            case 6:
-                setExampleSelection(breathingArtifactExamples[0]);
-                break;
-            //artifact tab
-            case 7:
-                setExampleSelection(artifactExamples[0]);
+                setExampleSelection(artifactToArtifactExamples[0]);
                 break;
             default:
-                setExampleSelection(12);
+                setExampleSelection(breathingToBreathingExamples[0]);
         }
     }
 
@@ -389,7 +359,7 @@ export default function App() {
                                 )}
                             </WaveformSelectorCol>
                             <WaveformSelectorLabel>
-                                {labels.map((d, i) => (
+                                {LABELS.map((d, i) => (
                                     <Toggle
                                         id="toggle"
                                         type="radio"
@@ -519,36 +489,20 @@ export default function App() {
                     <Tabs onChange={handleNormalTabChange}>
                         <StyledTabList>
                             <StyledTab>
-                                normal
+                                breathing to breathing
                             </StyledTab>
                             <StyledTab>
-                                hypopnea
+                                breathing to no breath
                             </StyledTab>
                             <StyledTab>
-                                bradypnea
-                            </StyledTab>
-                            <StyledTab>
-                                fluctuating to baseline
-                            </StyledTab>
-                            <StyledTab>
-                                fluctuating upslope
-                            </StyledTab>
-                            <StyledTab>
-                                pointed
-                            </StyledTab>
-                            <StyledTab>
-                                breathing with artifact
-                            </StyledTab>
-                            <StyledTab>
-                                artifact
+                                artifact to artifact
                             </StyledTab>
                         </StyledTabList>
                         <TabPanels>
                             <TabPanel>
                                 <Spacer axis="vertical" size={10} />
                                 <AccordionWrapper>
-                                    {/* normal examples */}
-                                    {normalExamples.map((d, i) => (
+                                    {breathingToBreathingExamples.map((d, i) => (
                                         <AccordionItem>
                                             <StyledAccordionButton onClick={() => setExampleSelection(d)}>
                                                 Example {i + 1}
@@ -573,8 +527,7 @@ export default function App() {
                             <TabPanel>
                                 <Spacer axis="vertical" size={10} />
                                 <AccordionWrapper>
-                                    {/* hypopnea examples */}
-                                    {hypopneaExamples.map((d, i) => (
+                                    {breathingToNoBreathExamples.map((d, i) => (
                                         <AccordionItem>
                                             <StyledAccordionButton onClick={() => setExampleSelection(d)}>
                                                 Example {i + 1}
@@ -598,139 +551,8 @@ export default function App() {
                             </TabPanel>
                             <TabPanel>
                                 <Spacer axis="vertical" size={10} />
-                                {/* bradypnea examples */}
                                 <AccordionWrapper>
-                                    {bradypneaExamples.map((d, i) => (
-                                        <AccordionItem>
-                                            <StyledAccordionButton onClick={() => setExampleSelection(d)}>
-                                                Example {i + 1}
-                                            </StyledAccordionButton>
-                                            <AccordionPanel>
-                                                {exampleLoading &&
-                                                    <p>Loading...</p>
-                                                }
-                                                {exampleError &&
-                                                    <p>There was an error loading the waveform for labelling</p>
-                                                }
-                                                {exampleData && exampleMax && (
-                                                    <LinePlot data={exampleData} maxCo2={exampleMax} />
-                                                )
-                                                }
-                                            </AccordionPanel>
-                                        </AccordionItem>
-                                    )
-                                    )}
-                                </AccordionWrapper>
-                            </TabPanel>
-                            <TabPanel>
-                                <Spacer axis="vertical" size={10} />
-                                {/* fluctuating to basline examples */}
-                                <AccordionWrapper>
-                                    {fluctuatingExamples.map((d, i) => (
-                                        <AccordionItem>
-                                            <StyledAccordionButton onClick={() => setExampleSelection(d)}>
-                                                Example {i + 1}
-                                            </StyledAccordionButton>
-                                            <AccordionPanel>
-                                                {exampleLoading &&
-                                                    <p>Loading...</p>
-                                                }
-                                                {exampleError &&
-                                                    <p>There was an error loading the waveform for labelling</p>
-                                                }
-                                                {exampleData && exampleMax && (
-                                                    <LinePlot data={exampleData} maxCo2={exampleMax} />
-                                                )
-                                                }
-                                            </AccordionPanel>
-                                        </AccordionItem>
-                                    )
-                                    )}
-                                </AccordionWrapper>
-                            </TabPanel>
-                            <TabPanel>
-                                <Spacer axis="vertical" size={10} />
-                                {/* fluctuating upslope examples */}
-                                <AccordionWrapper>
-                                    {fluctuatingUpslopeExamples.map((d, i) => (
-                                        <AccordionItem>
-                                            <StyledAccordionButton onClick={() => setExampleSelection(d)}>
-                                                Example {i + 1}
-                                            </StyledAccordionButton>
-                                            <AccordionPanel>
-                                                {exampleLoading &&
-                                                    <p>Loading...</p>
-                                                }
-                                                {exampleError &&
-                                                    <p>There was an error loading the waveform for labelling</p>
-                                                }
-                                                {exampleData && exampleMax && (
-                                                    <LinePlot data={exampleData} maxCo2={exampleMax} />
-                                                )
-                                                }
-                                            </AccordionPanel>
-                                        </AccordionItem>
-                                    )
-                                    )}
-                                </AccordionWrapper>
-                            </TabPanel>
-                            <TabPanel>
-                                <Spacer axis="vertical" size={10} />
-                                {/* pointed examples */}
-                                <AccordionWrapper>
-                                    {pointedExamples.map((d, i) => (
-                                        <AccordionItem>
-                                            <StyledAccordionButton onClick={() => setExampleSelection(d)}>
-                                                Example {i + 1}
-                                            </StyledAccordionButton>
-                                            <AccordionPanel>
-                                                {exampleLoading &&
-                                                    <p>Loading...</p>
-                                                }
-                                                {exampleError &&
-                                                    <p>There was an error loading the waveform for labelling</p>
-                                                }
-                                                {exampleData && exampleMax && (
-                                                    <LinePlot data={exampleData} maxCo2={exampleMax} />
-                                                )
-                                                }
-                                            </AccordionPanel>
-                                        </AccordionItem>
-                                    )
-                                    )}
-                                </AccordionWrapper>
-                            </TabPanel>
-                            <TabPanel>
-                                <Spacer axis="vertical" size={10} />
-                                {/* breathing-artifact examples */}
-                                <AccordionWrapper>
-                                    {breathingArtifactExamples.map((d, i) => (
-                                        <AccordionItem>
-                                            <StyledAccordionButton onClick={() => setExampleSelection(d)}>
-                                                Example {i + 1}
-                                            </StyledAccordionButton>
-                                            <AccordionPanel>
-                                                {exampleLoading &&
-                                                    <p>Loading...</p>
-                                                }
-                                                {exampleError &&
-                                                    <p>There was an error loading the waveform for labelling</p>
-                                                }
-                                                {exampleData && exampleMax && (
-                                                    <LinePlot data={exampleData} maxCo2={exampleMax} />
-                                                )
-                                                }
-                                            </AccordionPanel>
-                                        </AccordionItem>
-                                    )
-                                    )}
-                                </AccordionWrapper>
-                            </TabPanel>
-                            <TabPanel>
-                                <Spacer axis="vertical" size={10} />
-                                {/* artfiact examples */}
-                                <AccordionWrapper>
-                                    {artifactExamples.map((d, i) => (
+                                    {artifactToArtifactExamples.map((d, i) => (
                                         <AccordionItem>
                                             <StyledAccordionButton onClick={() => setExampleSelection(d)}>
                                                 Example {i + 1}
