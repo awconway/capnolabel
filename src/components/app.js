@@ -179,7 +179,7 @@ export default function App() {
         }
     }
     `
-    const [exampleSelection, setExampleSelection] = useState(1)
+    const [exampleSelection, setExampleSelection] = useState(84)
     const EXAMPLE_QUERY = gql`
     query Example {
         capnolabel_segments(where: {segmentIndex: {_eq: ${exampleSelection}}}, order_by: {timeIndex: asc}) {
