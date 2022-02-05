@@ -291,7 +291,7 @@ export default function App() {
 
 
     const artifactToArtifactExamples = [1, 3, 15, 28, 25, 34, 41, 47, 51, 55, 36 ]
-    const breathingToBreathingExamples = [84, 11, 30, 31, 43, 52]
+    const breathingToBreathingExamples = [84, 11, 30, 43, 52]
     const breathingToNoBreathExamples = [24,23, 2, 13, 14, 26, 33, 46]
 
     const handleNormalTabChange = (index) => {
