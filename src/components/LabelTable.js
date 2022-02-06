@@ -5,7 +5,7 @@ import { gapSize } from "../components/Base"
 
 const LabelTableWrapper = styled.div`
 position:relative;
-height: var(--inOutHeight);
+height: 600px;
 overflow: auto;
 padding: 40px;
 border-radius:var(--borderRadius);
