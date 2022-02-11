@@ -180,7 +180,7 @@ export default function App() {
         }
     }
     `
-    const [exampleSelection, setExampleSelection] = useState()
+    const [exampleSelection, setExampleSelection] = useState(50)
     const EXAMPLE_QUERY = gql`
     query Example {
         capnolabel_segments(where: {segmentIndex: {_eq: ${exampleSelection}}}, order_by: {timeIndex: asc}) {
@@ -293,10 +293,10 @@ export default function App() {
     }
 
 
-    const artifactToArtifactExamples = [ 2,  52]
-    const breathingToBreathingExamples = [87]
-    const breathingToNoBreathExamples = [ 1,4, 11, 30, 43, ]
-    const noBreathToNoBreathExamples = [ 5 ]
+    const artifactToArtifactExamples = [ 2, 9, 19, 26, 52, 36, 38, 49, 52, 70, 89, 94, 95, 97]
+    const breathingToBreathingExamples = [50, 51, 87, 86, 90]
+    const breathingToNoBreathExamples = [ 1,4,14, 23, 12, 11, 27,  30, 40, 43, 45,82, 83, 84, 91]
+    const noBreathToNoBreathExamples = [ 5, 13, 18, 22, 42, 53, 93]
 
     const handleNormalTabChange = (index) => {
         switch (index) {
@@ -501,6 +501,9 @@ export default function App() {
                             </StyledTab>
                             <StyledTab>
                                 artifact to artifact
+                            </StyledTab>
+                            <StyledTab>
+                                no breath to no breath
                             </StyledTab>
                         </StyledTabList>
                         <TabPanels>
