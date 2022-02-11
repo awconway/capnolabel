@@ -1,6 +1,6 @@
 import React, {useRef, useState, useEffect} from "react";
 import {Runtime, Inspector} from "@observablehq/runtime";
-import notebook from "@awconway/capnolabel-scroll-alarmbar";
+import notebook from "@awconway/capnolabel-scroll-alarmbar-60prior";
 
 function LinePlot({data, maxCo2}) {
   const ref = useRef();

@@ -18,7 +18,7 @@
     "@apollo/client": "^3.5.8",
     "@apollo/link-context": "^2.0.0-beta.3",
     "@auth0/auth0-react": "^1.9.0",
-    "@awconway/capnolabel-scroll-alarmbar": "https://api.observablehq.com/d/3cd2c7b66a39a71c.tgz?v=3",
+    "@awconway/capnolabel-scroll-alarmbar-60prior": "https://api.observablehq.com/d/35ae5e31f1e16e5a.tgz?v=3",
     "@observablehq/runtime": "4",
     "@radix-ui/react-scroll-area": "^0.1.1",
     "@reach/accordion": "^0.16.1",
