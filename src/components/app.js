@@ -176,6 +176,7 @@ export default function App() {
             segmentIndex
             pid
             apneaIndex
+            alarmState
         }
     }
     `
@@ -188,6 +189,7 @@ export default function App() {
             segmentIndex
             pid
             apneaIndex
+            alarmState
         }
     }
     `
@@ -196,12 +198,12 @@ export default function App() {
     const { loading: waveformLoading, error: waveformError, data: waveformData } = useQuery(WAVEFORM_QUERY)
     const { loading: exampleLoading, error: exampleError, data: exampleWaveformData } = useQuery(EXAMPLE_QUERY)
 
-    const plotData = waveformData && from(waveformData.capnolabel_segments)
+    const plotData = waveformData && from(waveformData.capnolabel_segments).derive({ timeIndexLead: (d) => op.lead(d.timeIndex) })
     const max = waveformData && Math.max.apply(null,
         plotData.rollup({ co2Array: op.array_agg("co2Wave") }).get("co2Array")
     )
 
-    const exampleData = exampleWaveformData && from(exampleWaveformData.capnolabel_segments)
+    const exampleData = exampleWaveformData && from(exampleWaveformData.capnolabel_segments).derive({ timeIndexLead: (d) => op.lead(d.timeIndex) })
     const exampleMax = exampleWaveformData && Math.max.apply(null,
         exampleData.rollup({ co2Array: op.array_agg("co2Wave") }).get("co2Array")
     )
@@ -290,9 +292,9 @@ export default function App() {
     }
 
 
-    const artifactToArtifactExamples = [1, 3, 15, 28, 25, 34, 41, 47, 51, 55, 36 ]
-    const breathingToBreathingExamples = [84, 11, 30, 43, 52]
-    const breathingToNoBreathExamples = [24,23, 2, 13, 14, 26, 33, 46]
+    const artifactToArtifactExamples = [  52]
+    const breathingToBreathingExamples = [1, 84, 87]
+    const breathingToNoBreathExamples = [ 11, 30, 43, ]
 
     const handleNormalTabChange = (index) => {
         switch (index) {
@@ -309,8 +311,6 @@ export default function App() {
                 setExampleSelection(breathingToBreathingExamples[0]);
         }
     }
-
-
 
 
     return (
