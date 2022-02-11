@@ -180,7 +180,7 @@ export default function App() {
         }
     }
     `
-    const [exampleSelection, setExampleSelection] = useState(84)
+    const [exampleSelection, setExampleSelection] = useState()
     const EXAMPLE_QUERY = gql`
     query Example {
         capnolabel_segments(where: {segmentIndex: {_eq: ${exampleSelection}}}, order_by: {timeIndex: asc}) {
@@ -281,7 +281,8 @@ export default function App() {
         "breathing -> breathing",
         "breathing -> no breath",
         // "artifact -> no breath",
-        "artifact -> artifact"
+        "artifact -> artifact",
+        "no breath -> no breath",
     ]
 
     const [showArtifactExample, setShowArtifactExample] = useState(false)
@@ -292,9 +293,10 @@ export default function App() {
     }
 
 
-    const artifactToArtifactExamples = [  52]
-    const breathingToBreathingExamples = [1, 84, 87]
-    const breathingToNoBreathExamples = [ 11, 30, 43, ]
+    const artifactToArtifactExamples = [ 2,  52]
+    const breathingToBreathingExamples = [87]
+    const breathingToNoBreathExamples = [ 1,4, 11, 30, 43, ]
+    const noBreathToNoBreathExamples = [ 5 ]
 
     const handleNormalTabChange = (index) => {
         switch (index) {
@@ -306,6 +308,9 @@ export default function App() {
                 break;
             case 2:
                 setExampleSelection(artifactToArtifactExamples[0]);
+                break;
+            case 2:
+                setExampleSelection(noBreathToNoBreathExamples[0]);
                 break;
             default:
                 setExampleSelection(breathingToBreathingExamples[0]);
@@ -553,6 +558,31 @@ export default function App() {
                                 <Spacer axis="vertical" size={10} />
                                 <AccordionWrapper>
                                     {artifactToArtifactExamples.map((d, i) => (
+                                        <AccordionItem>
+                                            <StyledAccordionButton onClick={() => setExampleSelection(d)}>
+                                                Example {i + 1}
+                                            </StyledAccordionButton>
+                                            <AccordionPanel>
+                                                {exampleLoading &&
+                                                    <p>Loading...</p>
+                                                }
+                                                {exampleError &&
+                                                    <p>There was an error loading the waveform for labelling</p>
+                                                }
+                                                {exampleData && exampleMax && (
+                                                    <LinePlot data={exampleData} maxCo2={exampleMax} />
+                                                )
+                                                }
+                                            </AccordionPanel>
+                                        </AccordionItem>
+                                    )
+                                    )}
+                                </AccordionWrapper>
+                            </TabPanel>
+                            <TabPanel>
+                                <Spacer axis="vertical" size={10} />
+                                <AccordionWrapper>
+                                    {noBreathToNoBreathExamples.map((d, i) => (
                                         <AccordionItem>
                                             <StyledAccordionButton onClick={() => setExampleSelection(d)}>
                                                 Example {i + 1}
