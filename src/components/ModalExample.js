@@ -6,7 +6,6 @@ import {
   DialogContent
 } from "@reach/dialog";
 
-const MOBILE_BREAKPOINT = 550;
 
 function Modal({
   title,
@@ -46,36 +45,32 @@ const Overlay = styled(DialogOverlay)`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-
-const Content = styled(DialogContent)`
+  
+  `;
+  
+  const Content = styled(DialogContent)`
   position: relative;
   background: white;
-  width: 80%;
-
-  @media (max-width: ${MOBILE_BREAKPOINT}px) {
-    width: 100%;
-    height: 100%;
-    border-radius: 0px;
-  }
+  width: 100%;
+  height:100%;
+  border-radius: 0px;
+  overflow: scroll;
+  
 `;
 
 const Header = styled.header`
-  padding: 16px;
   padding-bottom: 8px;
 
-  @media (max-width: ${MOBILE_BREAKPOINT}px) {
     padding: 4px;
     padding-left: 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid hsl(0deg 0% 80%);
-  }
+
 `;
 
 const CloseButton = styled.button`
-  position: absolute;
   top: -48px;
   right: 0;
   background: transparent;
@@ -88,10 +83,8 @@ const CloseButton = styled.button`
   justify-content: center;
   align-items: center;
 
-  @media (max-width: ${MOBILE_BREAKPOINT}px) {
     position: static;
     color: black;
-  }
 `;
 
 const Title = styled.h2`

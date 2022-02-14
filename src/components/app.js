@@ -4,8 +4,10 @@ import { useAuth0 } from "@auth0/auth0-react"
 import { ArticleWrapper, gapSize } from "./Base"
 import { op, from } from 'arquero'
 import LinePlot from "./linePlot"
+import LinePlotExample from "./linePlotExample"
 import LabelTableComponent from "./LabelTable";
 import Modal from "./Modal";
+import ModalExample from "./ModalExample";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import Button from "../components/Button"
 import Toggle from "./ToggleData";
@@ -309,7 +311,7 @@ export default function App() {
             case 2:
                 setExampleSelection(artifactToArtifactExamples[0]);
                 break;
-            case 2:
+            case 3:
                 setExampleSelection(noBreathToNoBreathExamples[0]);
                 break;
             default:
@@ -486,7 +488,7 @@ export default function App() {
                     </Button>
                 </ModalButtonWrapper>
             </Modal>
-            <Modal
+            <ModalExample
                 isOpen={showArtifactExample}
                 handleDismiss={abortArtifactExample}
             >
@@ -523,7 +525,7 @@ export default function App() {
                                                     <p>There was an error loading the waveform for labelling</p>
                                                 }
                                                 {exampleData && exampleMax && (
-                                                    <LinePlot data={exampleData} maxCo2={exampleMax} />
+                                                    <LinePlotExample data={exampleData} maxCo2={exampleMax} />
                                                 )
                                                 }
                                             </AccordionPanel>
@@ -548,7 +550,7 @@ export default function App() {
                                                     <p>There was an error loading the waveform for labelling</p>
                                                 }
                                                 {exampleData && exampleMax && (
-                                                    <LinePlot data={exampleData} maxCo2={exampleMax} />
+                                                    <LinePlotExample data={exampleData} maxCo2={exampleMax} />
                                                 )
                                                 }
                                             </AccordionPanel>
@@ -573,7 +575,7 @@ export default function App() {
                                                     <p>There was an error loading the waveform for labelling</p>
                                                 }
                                                 {exampleData && exampleMax && (
-                                                    <LinePlot data={exampleData} maxCo2={exampleMax} />
+                                                    <LinePlotExample data={exampleData} maxCo2={exampleMax} />
                                                 )
                                                 }
                                             </AccordionPanel>
@@ -598,7 +600,7 @@ export default function App() {
                                                     <p>There was an error loading the waveform for labelling</p>
                                                 }
                                                 {exampleData && exampleMax && (
-                                                    <LinePlot data={exampleData} maxCo2={exampleMax} />
+                                                    <LinePlotExample data={exampleData} maxCo2={exampleMax} />
                                                 )
                                                 }
                                             </AccordionPanel>
@@ -612,7 +614,7 @@ export default function App() {
                 </ModalMessage>
                 <ModalButtonWrapper>
                 </ModalButtonWrapper>
-            </Modal>
+            </ModalExample>
         </>
     )
 }
