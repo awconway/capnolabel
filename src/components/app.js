@@ -280,11 +280,13 @@ export default function App() {
     const { width } = useWindowSize();
     
     const LABELS = [
-        "breathing -> breathing",
-        "breathing -> no breath",
-        // "artifact -> no breath",
-        "artifact -> artifact",
-        "no breath -> no breath",
+        // "breathing -> breathing",
+        // "breathing -> no breath",
+        // // "artifact -> no breath",
+        // "artifact -> artifact",
+        // "no breath -> no breath",
+        "alarm",
+        "no alarm",
     ]
 
     const [showArtifactExample, setShowArtifactExample] = useState(false)
@@ -411,7 +413,7 @@ export default function App() {
                                         Saved labels
                                     </IconButtonLayout>
                                 </Button>
-                                <Button
+                                {/* <Button
                                     variant="fill"
                                     size="small"
                                     onClick={() => setShowArtifactExample(true)}
@@ -420,7 +422,7 @@ export default function App() {
                                         <Tags />
                                         Examples
                                     </IconButtonLayout>
-                                </Button>
+                                </Button> */}
                             </ExamplesWrapper>
                         </ArticleWrapper>
                     </Section>
