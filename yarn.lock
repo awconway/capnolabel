@@ -5175,16 +5175,16 @@ gatsby-plugin-create-client-paths@^4.8.0:
   dependencies:
     "@babel/runtime" "^7.15.4"
 
-gatsby-plugin-gatsby-cloud@^4.7.0:
-  version "4.7.0"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-gatsby-cloud/-/gatsby-plugin-gatsby-cloud-4.7.0.tgz#8661fbbe49770fd8f39dcba0621b2be605cd7856"
-  integrity sha512-3YjalMe3H/j7RGm5o3/dDVorVp6gg/K0hMXe9pGQxyzSwE1fUaHdYGda0fxYtnR2692yzzKbOfhYcL/B5IZ4dQ==
+gatsby-plugin-gatsby-cloud@^4.8.0:
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-gatsby-cloud/-/gatsby-plugin-gatsby-cloud-4.8.0.tgz#08286ba4e26c9177a074f74d6127e9163960ceff"
+  integrity sha512-dK+ipJXmwJRej9kKg+adS7g8DYe7vFGSyFxz3aqukt5n8aN1rVSff+pbOhkYOroaObpEOZlmNVzTIDbQ76JYRw==
   dependencies:
     "@babel/runtime" "^7.15.4"
     date-fns "^2.28.0"
     fs-extra "^10.0.0"
-    gatsby-core-utils "^3.7.0"
-    gatsby-telemetry "^3.7.0"
+    gatsby-core-utils "^3.8.0"
+    gatsby-telemetry "^3.8.0"
     js-cookie "^3.0.1"
     kebab-hash "^0.1.2"
     lodash "^4.17.21"
@@ -5299,10 +5299,10 @@ gatsby-source-filesystem@^4.8.0:
     valid-url "^1.0.9"
     xstate "^4.26.1"
 
-gatsby-telemetry@^3.7.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/gatsby-telemetry/-/gatsby-telemetry-3.7.0.tgz#898c3f158814ea11f924b85d14b9402baa5703de"
-  integrity sha512-jhtUGZynyHM3r9a7po/rKffj5AjacmU0rqqarsee9dxlDqsamqRtyFPTjn7JubRrc958M6qzNW+z/Zi0hoeFHg==
+gatsby-telemetry@^3.7.0, gatsby-telemetry@^3.8.0:
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/gatsby-telemetry/-/gatsby-telemetry-3.8.0.tgz#24a2a3b372053c4069763af50db534a03576bcf8"
+  integrity sha512-Kd2sntz+UjIjRvqzqJLu4d1fljeq+qSlGdCGeAQMEB4HdvQVtHDCR9+QyG0TQO5V5ZWBquvG1d+lHjq1jRL1xg==
   dependencies:
     "@babel/code-frame" "^7.14.0"
     "@babel/runtime" "^7.15.4"
@@ -5312,7 +5312,7 @@ gatsby-telemetry@^3.7.0:
     boxen "^4.2.0"
     configstore "^5.0.1"
     fs-extra "^10.0.0"
-    gatsby-core-utils "^3.7.0"
+    gatsby-core-utils "^3.8.0"
     git-up "^4.0.5"
     is-docker "^2.2.1"
     lodash "^4.17.21"
