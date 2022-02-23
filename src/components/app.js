@@ -172,13 +172,12 @@ export default function App() {
 
     const WAVEFORM_QUERY = gql`
     query Waveform {
-        capnolabel_segments_no_breath(where: {segmentIndex: {_eq: ${segmentIndex}}}, order_by: {timeIndex: asc}) {
+        capnolabel_segments_extended(where: {segmentIndex: {_eq: ${segmentIndex}}}, order_by: {timeIndex: asc}) {
             co2Wave
             timeIndex
             segmentIndex
             pid
-            apneaIndex
-            alarmState
+            capnoFeatureGroup
         }
     }
     `
@@ -190,8 +189,7 @@ export default function App() {
             timeIndex
             segmentIndex
             pid
-            apneaIndex
-            alarmState
+            capnoFeatureGroup
         }
     }
     `
@@ -200,7 +198,7 @@ export default function App() {
     const { loading: waveformLoading, error: waveformError, data: waveformData } = useQuery(WAVEFORM_QUERY)
     const { loading: exampleLoading, error: exampleError, data: exampleWaveformData } = useQuery(EXAMPLE_QUERY)
 
-    const plotData = waveformData && from(waveformData.capnolabel_segments_no_breath).derive({ timeIndexLead: (d) => op.lead(d.timeIndex) })
+    const plotData = waveformData && from(waveformData.capnolabel_segments_extended).derive({ timeIndexLead: (d) => op.lead(d.timeIndex) })
     const max = waveformData && Math.max.apply(null,
         plotData.rollup({ co2Array: op.array_agg("co2Wave") }).get("co2Array")
     )
@@ -219,7 +217,7 @@ export default function App() {
 
     const segmentSelected = waveformData && plotData
         .rollup({
-            segment: op.array_agg_distinct("apneaIndex")
+            segment: op.array_agg_distinct("capnoFeatureGroup")
         })
         .get("segment")[0]
 
@@ -280,13 +278,11 @@ export default function App() {
     const { width } = useWindowSize();
     
     const LABELS = [
-        // "breathing -> breathing",
-        // "breathing -> no breath",
-        // // "artifact -> no breath",
-        // "artifact -> artifact",
-        // "no breath -> no breath",
-        "alarm",
-        "no alarm",
+        "breathing",
+        "breathing with artifact",
+        "artifact",
+        "hypopnea",
+        "no breath"
     ]
 
     const [showArtifactExample, setShowArtifactExample] = useState(false)
@@ -325,7 +321,7 @@ export default function App() {
     return (
         <>
             {waveformLoading &&
-                <Loading width={width} height={500} />
+                <Loading width={width} height={400} />
             }
             {waveformError &&
                 <p>There was an error loading the waveform for labelling</p>

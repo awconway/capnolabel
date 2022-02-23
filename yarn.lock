@@ -55,13 +55,9 @@
     promise-polyfill "^8.2.1"
     unfetch "^4.2.0"
 
-"@awconway/capnolabel-5@https://api.observablehq.com/d/a40bac9cadcdb816@867.tgz?v=3":
-  version "867.0.0"
-  resolved "https://api.observablehq.com/d/a40bac9cadcdb816@867.tgz?v=3#928cda7b3a4b1c40a6aa481045a0a524a30b60d4"
-
-"@awconway/capnolabel-scroll-alarmbar-60prior@https://api.observablehq.com/d/35ae5e31f1e16e5a.tgz?v=3":
-  version "907.0.0"
-  resolved "https://api.observablehq.com/d/35ae5e31f1e16e5a.tgz?v=3#91c697a8442cdc9de6019821db6d29bcb6e6db64"
+"@awconway/capnolabel-4@https://api.observablehq.com/d/3929d7439f095b61.tgz?v=3":
+  version "561.0.0"
+  resolved "https://api.observablehq.com/d/3929d7439f095b61.tgz?v=3#b150a3d80c2786456ba39be58ab05d828505ce60"
 
 "@babel/code-frame@7.10.4":
   version "7.10.4"
