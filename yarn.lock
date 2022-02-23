@@ -2725,7 +2725,7 @@ babel-plugin-remove-graphql-queries@^4.8.0:
     "@babel/runtime" "^7.15.4"
     gatsby-core-utils "^3.8.0"
 
-"babel-plugin-styled-components@>= 1.12.0", babel-plugin-styled-components@^2.0.3:
+"babel-plugin-styled-components@>= 1.12.0", babel-plugin-styled-components@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/babel-plugin-styled-components/-/babel-plugin-styled-components-2.0.5.tgz#8c402e5868c2a419eefb5466fccf154af18c52d1"
   integrity sha512-A7kfST5odbf8Ev42OQbj5teEiT8DskpRoQ/iPYePLLdcTCAsodpYKqtoy4SJthpsGzQKc2vvnrtlUgdmJq6WKQ==
@@ -5170,7 +5170,7 @@ gatsby-plugin-react-svg@^3.1.0:
   dependencies:
     svg-react-loader "^0.4.6"
 
-gatsby-plugin-styled-components@^5.7.0:
+gatsby-plugin-styled-components@^5.8.0:
   version "5.8.0"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-styled-components/-/gatsby-plugin-styled-components-5.8.0.tgz#5d8c81802ed9266435aa1145451bfb3ac582ad37"
   integrity sha512-4ma9PgOr3U5TUX6uwAqFW+VX+fDxmt1y4oM3ArfZufaiQvZJ52cuf/uiyI+Tx1DJebcypEpR5dXYVl9ZX1bUHg==
