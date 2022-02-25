@@ -20,7 +20,7 @@
     "@auth0/auth0-react": "^1.9.0",
     "@awconway/capnolabel-4": "https://api.observablehq.com/d/3929d7439f095b61.tgz?v=3",
     "@observablehq/runtime": "4",
-    "@radix-ui/react-scroll-area": "^0.1.1",
+    "@radix-ui/react-scroll-area": "^0.1.4",
     "@reach/accordion": "^0.16.1",
     "@reach/dialog": "^0.16.2",
     "@reach/listbox": "^0.16.2",
