@@ -181,10 +181,10 @@ export default function App() {
         }
     }
     `
-    const [exampleSelection, setExampleSelection] = useState(50)
+    const [exampleSelection, setExampleSelection] = useState(291)
     const EXAMPLE_QUERY = gql`
     query Example {
-        capnolabel_segments(where: {segmentIndex: {_eq: ${exampleSelection}}}, order_by: {timeIndex: asc}) {
+        capnolabel_segments_extended(where: {segmentIndex: {_eq: ${exampleSelection}}}, order_by: {timeIndex: asc}) {
             co2Wave
             timeIndex
             segmentIndex
@@ -193,17 +193,14 @@ export default function App() {
         }
     }
     `
-
-
     const { loading: waveformLoading, error: waveformError, data: waveformData } = useQuery(WAVEFORM_QUERY)
     const { loading: exampleLoading, error: exampleError, data: exampleWaveformData } = useQuery(EXAMPLE_QUERY)
-
     const plotData = waveformData && from(waveformData.capnolabel_segments_extended).derive({ timeIndexLead: (d) => op.lead(d.timeIndex) })
     const max = waveformData && Math.max.apply(null,
         plotData.rollup({ co2Array: op.array_agg("co2Wave") }).get("co2Array")
     )
 
-    const exampleData = exampleWaveformData && from(exampleWaveformData.capnolabel_segments).derive({ timeIndexLead: (d) => op.lead(d.timeIndex) })
+    const exampleData = exampleWaveformData && from(exampleWaveformData.capnolabel_segments_extended).derive({ timeIndexLead: (d) => op.lead(d.timeIndex) })
     const exampleMax = exampleWaveformData && Math.max.apply(null,
         exampleData.rollup({ co2Array: op.array_agg("co2Wave") }).get("co2Array")
     )
@@ -293,27 +290,27 @@ export default function App() {
     }
 
 
-    const artifactToArtifactExamples = [ 2, 9, 19, 26, 52, 36, 38, 49, 52, 70, 89, 94, 95, 97]
-    const breathingToBreathingExamples = [50, 51, 87, 86, 90]
-    const breathingToNoBreathExamples = [ 1,4,14, 23, 12, 11, 27,  30, 40, 43, 45,82, 83, 84, 91]
-    const noBreathToNoBreathExamples = [ 5, 13, 18, 22, 42, 53, 93]
+    const breathingExamples = [291, 284]
+    const breathingArtifactExamples = [8, 9, 207, 250, 283]
+    const noBreathExamples = [18, 88, 255, 256, 130, 154, 160, 164]
+    const hypopneaExamples = [7, 10, 14]
 
     const handleNormalTabChange = (index) => {
         switch (index) {
             case 0:
-                setExampleSelection(breathingToBreathingExamples[0]);
+                setExampleSelection(breathingExamples[0]);
                 break;
             case 1:
-                setExampleSelection(breathingToNoBreathExamples[0]);
+                setExampleSelection(breathingArtifactExamples[0]);
                 break;
             case 2:
-                setExampleSelection(artifactToArtifactExamples[0]);
+                setExampleSelection(noBreathExamples[0]);
                 break;
             case 3:
-                setExampleSelection(noBreathToNoBreathExamples[0]);
+                setExampleSelection(hypopneaExamples[0]);
                 break;
             default:
-                setExampleSelection(breathingToBreathingExamples[0]);
+                setExampleSelection(breathingExamples[0]);
         }
     }
 
@@ -409,7 +406,7 @@ export default function App() {
                                         Saved labels
                                     </IconButtonLayout>
                                 </Button>
-                                {/* <Button
+                                <Button
                                     variant="fill"
                                     size="small"
                                     onClick={() => setShowArtifactExample(true)}
@@ -418,7 +415,7 @@ export default function App() {
                                         <Tags />
                                         Examples
                                     </IconButtonLayout>
-                                </Button> */}
+                                </Button>
                             </ExamplesWrapper>
                         </ArticleWrapper>
                     </Section>
@@ -494,23 +491,23 @@ export default function App() {
                     <Tabs onChange={handleNormalTabChange}>
                         <StyledTabList>
                             <StyledTab>
-                                breathing to breathing
+                                breathing
                             </StyledTab>
                             <StyledTab>
-                                breathing to no breath
+                                breathing with artifact
                             </StyledTab>
                             <StyledTab>
-                                artifact to artifact
+                                no breath
                             </StyledTab>
                             <StyledTab>
-                                no breath to no breath
+                                hypopnea
                             </StyledTab>
                         </StyledTabList>
                         <TabPanels>
                             <TabPanel>
                                 <Spacer axis="vertical" size={10} />
                                 <AccordionWrapper>
-                                    {breathingToBreathingExamples.map((d, i) => (
+                                    {breathingExamples.map((d, i) => (
                                         <AccordionItem>
                                             <StyledAccordionButton onClick={() => setExampleSelection(d)}>
                                                 Example {i + 1}
@@ -535,7 +532,7 @@ export default function App() {
                             <TabPanel>
                                 <Spacer axis="vertical" size={10} />
                                 <AccordionWrapper>
-                                    {breathingToNoBreathExamples.map((d, i) => (
+                                    {breathingArtifactExamples.map((d, i) => (
                                         <AccordionItem>
                                             <StyledAccordionButton onClick={() => setExampleSelection(d)}>
                                                 Example {i + 1}
@@ -560,7 +557,7 @@ export default function App() {
                             <TabPanel>
                                 <Spacer axis="vertical" size={10} />
                                 <AccordionWrapper>
-                                    {artifactToArtifactExamples.map((d, i) => (
+                                    {noBreathExamples.map((d, i) => (
                                         <AccordionItem>
                                             <StyledAccordionButton onClick={() => setExampleSelection(d)}>
                                                 Example {i + 1}
@@ -585,7 +582,7 @@ export default function App() {
                             <TabPanel>
                                 <Spacer axis="vertical" size={10} />
                                 <AccordionWrapper>
-                                    {noBreathToNoBreathExamples.map((d, i) => (
+                                    {hypopneaExamples.map((d, i) => (
                                         <AccordionItem>
                                             <StyledAccordionButton onClick={() => setExampleSelection(d)}>
                                                 Example {i + 1}
