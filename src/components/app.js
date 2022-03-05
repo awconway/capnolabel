@@ -55,7 +55,7 @@ const Section = styled.section`
 
 const QUERY = gql`
 query {
-  labels(order_by: {segmentIndex: desc}) {
+  labels(order_by: {segmentIndex: desc}, limit: 100) {
     id
     label
     pid
