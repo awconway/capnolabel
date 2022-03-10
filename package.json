@@ -43,7 +43,7 @@
     "gatsby-source-filesystem": "^4.8.0",
     "graphql": "^16.3.0",
     "react": "^17.0.1",
-    "react-content-loader": "^6.0.3",
+    "react-content-loader": "^6.2.0",
     "react-device-detect": "^2.1.2",
     "react-dom": "^17.0.1",
     "react-feather": "^2.0.9",
