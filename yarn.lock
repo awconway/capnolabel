@@ -5565,10 +5565,10 @@ gatsby-cli@^4.9.0:
     yoga-layout-prebuilt "^1.10.0"
     yurnalist "^2.1.0"
 
-gatsby-core-utils@^3.8.2, gatsby-core-utils@^3.9.0:
-  version "3.9.0"
-  resolved "https://registry.yarnpkg.com/gatsby-core-utils/-/gatsby-core-utils-3.9.0.tgz#7be5969622e44c4475cb14f1ac64b49a4072ab6c"
-  integrity sha512-SvPnr86oXTY3ldbQ4QAkEew3BQE9vlzUXcXVJqTOhMUeGEz2kibBFUmVp8ia9Y1eOD+K/0xXQ54jUqaResj69w==
+gatsby-core-utils@^3.10.0, gatsby-core-utils@^3.8.2, gatsby-core-utils@^3.9.0:
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/gatsby-core-utils/-/gatsby-core-utils-3.10.0.tgz#52be8a9a891d95686a7ee0c1cfef44f8e362232b"
+  integrity sha512-yaRI/uUsbIggPRfh0y6CH+fy2AqbFFLxCYndw5nrVByEY40+KaKs0wOF4yIgPRBZZUHOyfBJ+1AGo2JLHdY5lA==
   dependencies:
     "@babel/runtime" "^7.15.4"
     ci-info "2.0.0"
@@ -5578,7 +5578,7 @@ gatsby-core-utils@^3.8.2, gatsby-core-utils@^3.9.0:
     fs-extra "^10.0.0"
     got "^11.8.3"
     import-from "^4.0.0"
-    lmdb "^2.1.7"
+    lmdb "^2.2.4"
     lock "^1.1.0"
     node-object-hash "^2.3.10"
     proper-lockfile "^4.1.2"
@@ -5761,16 +5761,16 @@ gatsby-sharp@^0.3.0:
     "@types/sharp" "^0.29.5"
     sharp "^0.30.1"
 
-gatsby-source-filesystem@^4.8.0:
-  version "4.9.0"
-  resolved "https://registry.yarnpkg.com/gatsby-source-filesystem/-/gatsby-source-filesystem-4.9.0.tgz#8cf6f3f67cc97f8a75e284814f444a0eea3263e6"
-  integrity sha512-woSxEgYeZSVZSpxm+FwB+RjRIyhcix1AR9766W4yk5RwYH2wciF2OfxRC73WW/o/v1ztzeW6RoqIIY+GBXaA1A==
+gatsby-source-filesystem@^4.10.0:
+  version "4.10.0"
+  resolved "https://registry.yarnpkg.com/gatsby-source-filesystem/-/gatsby-source-filesystem-4.10.0.tgz#d51041c01b0e905a426f8ad81494175e2f2a1109"
+  integrity sha512-fRN7MFVnmxljVmZZCYswNNMdFygB0hfHmtTM6kdbBc8llkRPtr9tsvK6LHnWsxU2tzPHDTGvRORcSs/coT2v3A==
   dependencies:
     "@babel/runtime" "^7.15.4"
     chokidar "^3.5.2"
     file-type "^16.5.3"
     fs-extra "^10.0.0"
-    gatsby-core-utils "^3.9.0"
+    gatsby-core-utils "^3.10.0"
     got "^9.6.0"
     md5-file "^5.0.0"
     mime "^2.5.2"
@@ -7253,10 +7253,21 @@ lmdb@2.2.1:
     ordered-binary "^1.2.4"
     weak-lru-cache "^1.2.2"
 
-lmdb@^2.0.2, lmdb@^2.1.7:
+lmdb@^2.0.2:
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/lmdb/-/lmdb-2.2.3.tgz#713ffa515c31e042808abf364b4aa0feaeaf6360"
   integrity sha512-+OiHQpw22mBBxocb/9vcVNETqf0k5vgHA2r+KX7eCf8j5tSV50ZIv388iY1mnnrERIUhs2sjKQbZhPg7z4HyPQ==
+  dependencies:
+    msgpackr "^1.5.4"
+    nan "^2.14.2"
+    node-gyp-build "^4.2.3"
+    ordered-binary "^1.2.4"
+    weak-lru-cache "^1.2.2"
+
+lmdb@^2.2.4:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/lmdb/-/lmdb-2.2.6.tgz#a52ef533812b8abcbe0033fc9d74d215e7dfc0a0"
+  integrity sha512-UmQV0oZZcV3EN6rjcAjIiuWcc3MYZGWQ0GUYz46Ron5fuTa/dUow7WSQa6leFkvZIKVUdECBWVw96tckfEzUFQ==
   dependencies:
     msgpackr "^1.5.4"
     nan "^2.14.2"
