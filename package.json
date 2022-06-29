@@ -33,7 +33,7 @@
     "arquero": "^4.8.8",
     "auth0-js": "^9.19.0",
     "babel-plugin-styled-components": "^2.0.5",
-    "gatsby": "^4.8.0",
+    "gatsby": "^4.17.2",
     "gatsby-plugin-create-client-paths": "^4.8.0",
     "gatsby-plugin-gatsby-cloud": "^4.8.0",
     "gatsby-plugin-manifest": "^4.8.0",
