@@ -46,7 +46,7 @@
     "react-content-loader": "^6.2.0",
     "react-device-detect": "^2.2.2",
     "react-dom": "^18.2.0",
-    "react-feather": "^2.0.9",
+    "react-feather": "^2.0.10",
     "styled-components": "^5.3.5",
     "styled-reset": "^4.3.4",
     "yarn": "^1.22.17"
