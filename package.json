@@ -15,7 +15,7 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
-    "@apollo/client": "^3.5.9",
+    "@apollo/client": "^3.6.9",
     "@apollo/link-context": "^2.0.0-beta.3",
     "@auth0/auth0-react": "^1.10.2",
     "@awconway/capnolabel-4": "https://api.observablehq.com/d/3929d7439f095b61.tgz?v=3",
