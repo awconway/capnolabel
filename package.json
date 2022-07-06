@@ -25,7 +25,7 @@
     "@reach/dialog": "^0.16.2",
     "@reach/listbox": "^0.16.2",
     "@reach/tabs": "^0.16.4",
-    "@reach/window-size": "^0.16.0",
+    "@reach/window-size": "^0.17.0",
     "add": "^2.0.6",
     "apollo-link": "^1.2.14",
     "apollo-link-batch-http": "^1.2.14",
