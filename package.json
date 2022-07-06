@@ -23,7 +23,7 @@
     "@radix-ui/react-scroll-area": "^0.1.1",
     "@reach/accordion": "^0.17.0",
     "@reach/dialog": "^0.16.2",
-    "@reach/listbox": "^0.16.2",
+    "@reach/listbox": "^0.17.0",
     "@reach/tabs": "^0.17.0",
     "@reach/window-size": "^0.17.0",
     "add": "^2.0.6",
