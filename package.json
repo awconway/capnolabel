@@ -24,7 +24,7 @@
     "@reach/accordion": "^0.17.0",
     "@reach/dialog": "^0.16.2",
     "@reach/listbox": "^0.16.2",
-    "@reach/tabs": "^0.16.4",
+    "@reach/tabs": "^0.17.0",
     "@reach/window-size": "^0.17.0",
     "add": "^2.0.6",
     "apollo-link": "^1.2.14",
